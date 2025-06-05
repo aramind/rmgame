@@ -12,7 +12,7 @@ const getPlayer = async (req, res) => {
           .split(",")
           .map((f) => f.trim())
           .filter((f) => f !== "password")
-          .join(" ") + " -password"
+          .join(" ")
       : "-password";
 
     const player = await Player.findById(id).select(requestedFields);

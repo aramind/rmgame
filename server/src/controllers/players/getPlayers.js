@@ -9,7 +9,7 @@ const getPlayers = async (req, res) => {
           .split(",")
           .map((f) => f.trim())
           .filter((f) => f !== "password")
-          .join(" ") + " -password"
+          .join(" ")
       : "-password";
 
     const filter = { ...queryParams };

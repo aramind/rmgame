@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, "../client/build")));
 // base routes
 
 app.use("/v1/auth", authRouter);
-app.use("/v1/player", playerRouter);
+app.use("/v1/players", playerRouter);
 // authenticated routes
 
 // for the static site
