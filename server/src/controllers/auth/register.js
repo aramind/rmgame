@@ -15,6 +15,24 @@ const register = async (req, res) => {
       );
     }
 
+    if (username.length < 3) {
+      return sendResponse.failed(
+        res,
+        "Username must be at least 3 characters long.",
+        null,
+        400
+      );
+    }
+
+    if (password.length < 4) {
+      return sendResponse.failed(
+        res,
+        "Password must be at least 4 characters long.",
+        null,
+        400
+      );
+    }
+
     const existing = await Player.findOne({ username });
     if (existing) {
       return sendResponse.failed(res, "Name already taken!", username, 409);
