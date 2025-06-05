@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient } from "react-query";
-import useAlerts from "../useAlerts";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useAlerts from "./useAlerts";
 
 const useApiSendAsync = (fn, invalidateKey, options) => {
   const queryClient = useQueryClient();

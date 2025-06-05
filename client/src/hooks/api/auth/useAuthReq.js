@@ -5,14 +5,14 @@ const useAuthReq = () => {
   const request = useRequest();
 
   const req = {
-    login: async ({ data }) => {
+    register: async (data) => {
       return request({
         url: `${urls?.AUTH}/register`,
         method: "POST",
         data,
       });
     },
-    signup: async ({ data }) => {
+    verify: async ({ data }) => {
       return request({
         url: `${urls?.AUTH}/verify`,
         method: "POST",

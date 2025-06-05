@@ -19,6 +19,7 @@ const AddPlayersDialog = ({
   setOpen,
   title = "",
   maxWidth = "md",
+  handleConfirmPlay,
 }) => {
   const dialogRef = useRef(null);
 
@@ -41,61 +42,77 @@ const AddPlayersDialog = ({
     e.stopPropagation();
   };
 
+  const sendPlayRequest = (formData) => {
+    const data = {
+      playerR: {
+        name: formData.playerRname,
+        username: formData.playerRusername,
+        password: formData.playerRpassword,
+      },
+      playerM: {
+        name: formData.playerMname,
+        username: formData.playerMusername,
+        password: formData.playerMpassword,
+      },
+    };
+    console.log(data);
+    handleConfirmPlay(data);
+  };
+
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      slotProps={{
-        paper: {
-          ref: dialogRef,
-          sx: {
-            width: { xs: "95vw", md: "80vw" },
-            height: { xs: "90vh", md: "80vh" },
-            backgroundColor: (theme) => theme.palette.black.main,
-            color: (theme) => theme.palette.white.dark,
-            borderRadius: 2,
-            p: 1,
+    <>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        slotProps={{
+          paper: {
+            ref: dialogRef,
+            sx: {
+              width: { xs: "95vw", md: "80vw" },
+              height: { xs: "90vh", md: "80vh" },
+              backgroundColor: (theme) => theme.palette.black.main,
+              color: (theme) => theme.palette.white.dark,
+              borderRadius: 2,
+              p: 1,
+            },
           },
-        },
-      }}
-      maxWidth={maxWidth}
-    >
-      <DialogTitle id="dialog-title">{title}</DialogTitle>
-      <DialogContent>
-        <FormWrapper formMethods={formMethods}>
-          <Typography>ADD PLAYERS</Typography>
-          <form noValidate>
-            <Stack direction={{ xs: "column", md: "row" }} gap={2}>
-              <PlayerBox fieldPrefix="playerR" />
-              <PlayerBox fieldPrefix="playerM" />
-            </Stack>
-          </form>
-        </FormWrapper>
-      </DialogContent>
-      <DialogActions>
-        <Stack spacing={2} direction="row">
-          <Button
-            variant="outlined"
-            onClick={() => setOpen(false)}
-            width={{ xs: "250px", md: "300px" }}
-            fullWidth
-          >
-            CANCEL
-          </Button>
-          <Button
-            variant="contained"
-            onClick={handleSubmit((data) => {
-              console.log("Form data submitted:", data);
-              setOpen(false); // optionally close dialog on success
-            })}
-            fullWidth
-          >
-            {" "}
-            PLAY
-          </Button>
-        </Stack>
-      </DialogActions>
-    </Dialog>
+        }}
+        maxWidth={maxWidth}
+      >
+        <DialogTitle id="dialog-title">{title}</DialogTitle>
+        <DialogContent>
+          <FormWrapper formMethods={formMethods}>
+            <Typography>ADD PLAYERS</Typography>
+            <form noValidate>
+              <Stack direction={{ xs: "column", md: "row" }} gap={2}>
+                <PlayerBox fieldPrefix="playerR" />
+                <PlayerBox fieldPrefix="playerM" />
+              </Stack>
+            </form>
+          </FormWrapper>
+        </DialogContent>
+        <DialogActions>
+          <Stack spacing={2} direction="row">
+            <Button
+              variant="outlined"
+              onClick={() => setOpen(false)}
+              width={{ xs: "250px", md: "300px" }}
+              fullWidth
+            >
+              CANCEL
+            </Button>
+            <Button
+              variant="contained"
+              onClick={handleSubmit(sendPlayRequest)}
+              fullWidth
+            >
+              {" "}
+              PLAY
+            </Button>
+          </Stack>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };
 

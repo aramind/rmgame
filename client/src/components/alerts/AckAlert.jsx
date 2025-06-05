@@ -1,5 +1,5 @@
-import { useGlobalState } from "../../context/GlobalStatesProvider";
 import { Alert, Snackbar } from "@mui/material";
+import { useGlobalState } from "../../context/GlobalStateProvider";
 
 function AckAlert() {
   const {
