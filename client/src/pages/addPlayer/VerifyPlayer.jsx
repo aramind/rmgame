@@ -50,6 +50,7 @@ const VerifyPlayer = () => {
             p: 1,
           }}
         >
+          <ControlledTextField name="name" label="name" />
           <ControlledTextField name="username" label="username" />
           <Controller
             name="password"
