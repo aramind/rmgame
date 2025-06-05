@@ -9,11 +9,12 @@ const HeroSection = () => {
   const [openPlayersDialog, setOpenPlayersDialog] = useState(false);
   const navigate = useNavigate();
 
-  const handleCloseDialog = () => {
+  const handleGoToPlay = () => {
+    navigate("/play");
     setOpenPlayersDialog(false);
   };
   const { handleConfirmPlay, renderConfirmActionDialog, isLoading } =
-    useAuthActions({ handleCloseDialog });
+    useAuthActions({ handleCloseDialog: handleGoToPlay });
   return (
     <>
       <Stack width={1} height="80vh" className="outlined centered">
