@@ -1,9 +1,11 @@
 import { Box, Button, Stack } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import Title from "./Title";
 import { useNavigate } from "react-router-dom";
+import AddPlayersDialog from "../../components/AddPlayersDialog";
 
 const HeroSection = () => {
+  const [openPlayersDialog, setOpenPlayersDialog] = useState(false);
   const navigate = useNavigate();
   return (
     <Stack width={1} height="80vh" className="outlined centered">
@@ -14,11 +16,20 @@ const HeroSection = () => {
           fullWidth
           sx={{ py: 1.5 }}
           size="large"
-          onClick={() => navigate("/play")}
+          onClick={() => setOpenPlayersDialog((pv) => true)}
+          //   onClick={() => navigate("/play")}
         >
           START NEW GAME
         </Button>
       </Stack>
+      <AddPlayersDialog
+        open={openPlayersDialog}
+        setOpen={setOpenPlayersDialog}
+        handleConfirm={() => {
+          alert("PLAYERS ADDED");
+          navigate("/play");
+        }}
+      />
     </Stack>
   );
 };
