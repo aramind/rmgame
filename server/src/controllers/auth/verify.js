@@ -3,21 +3,61 @@ const sendResponse = require("../../utils/sendResponse");
 
 const verify = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    if (req.body?.playerR || req.body?.playerM) {
+      return sendResponse.failed(
+        res,
+        "Cannot play with the current number of players.",
+        null,
+        409
+      );
+    }
+    const { playerR, playerM } = req.body;
 
-    const player = await Player.findOne({ username });
+    const player1 = await Player.findOne({
+      username: playerR.username,
+      password: playerR.password,
+    });
+    const player2 = await Player.findOne({
+      username: playerM.username,
+      password: playerM.password,
+    });
 
-    if (!player || player?.password !== password) {
-      return sendResponse.failed(res, "Invalid credentials", null, 404);
+    let message = [];
+
+    // if (!player1 || player1?.password !== playerR.password) {
+    //   return sendResponse.failed(res, "Invalid credentials", null, 404);
+    // }
+
+    if (!player1) {
+      message.push("Invalid credentials for PlayerR");
+    }
+
+    if (!player2) {
+      message.push("Invalid credentials for PlayerM");
+    }
+
+    if (!player1 || !player2) {
+      return sendResponse.failed(res, message.join(", "), null, 400);
     }
 
     const responsePayload = {
-      player: {
-        username: player.username,
-        stats: player.stats,
-        profileImage: player.profileImage,
-        createdAt: player.createdAt,
-        updatedAt: player.updatedAt,
+      players: {
+        playerR: {
+          username: player1.username,
+          stats: player1.stats,
+          profileImage: player1.profileImage,
+          createdAt: player1.createdAt,
+          updatedAt: player1.updatedAt,
+          name: playerR.name,
+        },
+        playerM: {
+          username: player2.username,
+          stats: player2.stats,
+          profileImage: player2.profileImage,
+          createdAt: player2.createdAt,
+          updatedAt: player2.updatedAt,
+          name: playerM.name,
+        },
       },
     };
 
