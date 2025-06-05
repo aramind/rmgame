@@ -12,10 +12,11 @@ dotenv.config();
 const { PORT = 3001, MONGO_CONNECT: DB } = process.env;
 
 //routers
-
-// configs
+const authRouter = require("./src/routes/authRouter");
 
 const app = express();
+
+// configs
 
 // middlewares
 app.use([
@@ -30,6 +31,8 @@ app.use([
 app.use(express.static(path.join(__dirname, "../client/build")));
 
 // base routes
+
+app.use("/v1/auth", authRouter);
 // authenticated routes
 
 // for the static site
