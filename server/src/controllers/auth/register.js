@@ -25,6 +25,7 @@ const register = async (req, res) => {
       username,
       // password: hashPassword(password)
       password,
+      profileImage: `https://api.dicebear.com/9.x/bottts/svg?seed=${username}`,
     });
 
     const createdPlayer = await newPlayer.save();
