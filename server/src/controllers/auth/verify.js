@@ -2,8 +2,11 @@ const Player = require("../../models/Player");
 const sendResponse = require("../../utils/sendResponse");
 
 const verify = async (req, res) => {
+  console.log("IN VERIY CONT");
   try {
-    if (req.body?.playerR || req.body?.playerM) {
+    const { playerR, playerM } = req.body;
+
+    if (!playerR || !playerM) {
       return sendResponse.failed(
         res,
         "Cannot play with the current number of players.",
@@ -11,7 +14,6 @@ const verify = async (req, res) => {
         409
       );
     }
-    const { playerR, playerM } = req.body;
 
     const player1 = await Player.findOne({
       username: playerR.username,

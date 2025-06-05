@@ -19,7 +19,7 @@ const gameRouter = require("./src/routes/gameRouter");
 const app = express();
 
 // configs
-
+const corsOptions = require("./src/configs/cors");
 // middlewares
 app.use([
   helmet(),
@@ -27,6 +27,7 @@ app.use([
   express.urlencoded({ extended: true }),
   morgan("combined"),
   cookieParser(),
+  cors(corsOptions),
 ]);
 
 // rendering the static file for the client

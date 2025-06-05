@@ -12,7 +12,7 @@ const useAuthReq = () => {
         data,
       });
     },
-    verify: async ({ data }) => {
+    verify: async (data) => {
       return request({
         url: `${urls?.AUTH}/verify`,
         method: "POST",
