@@ -5,7 +5,6 @@ import TextFieldError from "./TextFieldError";
 const ControlledTextField = ({ label = "", name = "", tfProps }) => {
   const { errors, control } = useFormContext();
 
-  console.log(errors);
   return (
     <Controller
       control={control}

@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import Title from "./Title";
 import { useNavigate } from "react-router-dom";
 import AddPlayersDialog from "../../components/AddPlayersDialog";
-import AddPlayer from "../addPlayer/AddPlayer";
 
 const HeroSection = () => {
   const [openPlayersDialog, setOpenPlayersDialog] = useState(false);
@@ -26,11 +25,6 @@ const HeroSection = () => {
       <AddPlayersDialog
         open={openPlayersDialog}
         setOpen={setOpenPlayersDialog}
-        handleConfirm={() => {
-          alert("PLAYERS ADDED");
-          navigate("/play");
-        }}
-        content={<AddPlayer />}
       />
     </Stack>
   );

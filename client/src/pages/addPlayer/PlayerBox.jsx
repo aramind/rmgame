@@ -34,7 +34,7 @@ const PlayerBox = ({ fieldPrefix }) => {
       <ControlledTextField name={`${fieldPrefix}name`} label="In Game Name" />
       <ControlledTextField name={`${fieldPrefix}username`} label="Username" />
       <Controller
-        name={`${fieldPrefix}.password`}
+        name={`${fieldPrefix}password`}
         control={control}
         render={({ field }) => (
           <Stack>

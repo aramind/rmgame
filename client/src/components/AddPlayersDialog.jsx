@@ -1,31 +1,50 @@
 import {
-  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   Stack,
+  Typography,
 } from "@mui/material";
 import React, { useRef } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import addPlayerSchema from "../schemas/addPlayer";
+import FormWrapper from "../wrappers/FormWrapper";
+import PlayerBox from "../pages/addPlayer/PlayerBox";
 
 const AddPlayersDialog = ({
   open = false,
   setOpen,
   title = "",
-  content = "",
-  handleConfirm,
   maxWidth = "md",
 }) => {
   const dialogRef = useRef(null);
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: "onTouched",
+    resolver: yupResolver(addPlayerSchema),
+  });
+
+  const formMethods = {
+    control,
+    handleSubmit,
+    errors,
+  };
 
   const handleClose = (e) => {
     e.stopPropagation();
   };
 
-  const onClickSubmit = () => {
-    alert("submitting");
+  const onSubmit = (data) => {
+    handleSubmit(data);
   };
+
   return (
     <Dialog
       open={open}
@@ -46,7 +65,17 @@ const AddPlayersDialog = ({
       maxWidth={maxWidth}
     >
       <DialogTitle id="dialog-title">{title}</DialogTitle>
-      <DialogContent>{content}</DialogContent>
+      <DialogContent>
+        <FormWrapper formMethods={formMethods}>
+          <Typography>ADD PLAYERS</Typography>
+          <form noValidate>
+            <Stack direction={{ xs: "column", md: "row" }} gap={2}>
+              <PlayerBox fieldPrefix="playerR" />
+              <PlayerBox fieldPrefix="playerM" />
+            </Stack>
+          </form>
+        </FormWrapper>
+      </DialogContent>
       <DialogActions>
         <Stack spacing={2} direction="row">
           <Button
@@ -59,10 +88,10 @@ const AddPlayersDialog = ({
           </Button>
           <Button
             variant="contained"
-            onClick={() => {
-              handleConfirm();
-              setOpen(false);
-            }}
+            onClick={handleSubmit((data) => {
+              console.log("Form data submitted:", data);
+              setOpen(false); // optionally close dialog on success
+            })}
             fullWidth
           >
             {" "}
