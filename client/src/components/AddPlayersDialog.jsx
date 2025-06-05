@@ -41,10 +41,6 @@ const AddPlayersDialog = ({
     e.stopPropagation();
   };
 
-  const onSubmit = (data) => {
-    handleSubmit(data);
-  };
-
   return (
     <Dialog
       open={open}

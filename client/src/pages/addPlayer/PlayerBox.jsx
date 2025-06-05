@@ -4,12 +4,14 @@ import {
   InputAdornment,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import React, { useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import ControlledTextField from "../../components/controlled/ControlledTextField";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import TextFieldError from "../../components/controlled/TextFieldError";
+import { grey } from "@mui/material/colors";
 
 const PlayerBox = ({ fieldPrefix }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -31,6 +33,12 @@ const PlayerBox = ({ fieldPrefix }) => {
         p: 1,
       })}
     >
+      <Box width={1} mb={2}>
+        <Typography
+          color={grey[800]}
+          textAlign="center"
+        >{`PLAYER ${fieldPrefix.slice(-1)}`}</Typography>
+      </Box>
       <ControlledTextField name={`${fieldPrefix}name`} label="In Game Name" />
       <ControlledTextField name={`${fieldPrefix}username`} label="Username" />
       <Controller
