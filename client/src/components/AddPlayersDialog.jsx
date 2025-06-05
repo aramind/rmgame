@@ -22,6 +22,10 @@ const AddPlayersDialog = ({
   const handleClose = (e) => {
     e.stopPropagation();
   };
+
+  const onClickSubmit = () => {
+    alert("submitting");
+  };
   return (
     <Dialog
       open={open}
