@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Game = require("../../models/Game");
 const Player = require("../../models/Player");
+const sendResponse = require("../../utils/sendResponse");
 
 const addGame = async (req, res) => {
   const session = await mongoose.startSession();
@@ -37,6 +38,7 @@ const addGame = async (req, res) => {
     const savedGame = await newGame.save({ session });
 
     await session.commitTransaction();
+    transactionCommitted = true;
     session.endSession();
 
     return sendResponse.success(
@@ -46,7 +48,9 @@ const addGame = async (req, res) => {
       201
     );
   } catch (error) {
-    await session.abortTransaction();
+    if (!transactionCommitted) {
+      await session.abortTransaction();
+    }
     session.endSession();
     console.error(error);
     sendResponse.failed(res, "Server Error: Adding Game", error, 500);
