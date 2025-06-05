@@ -13,6 +13,7 @@ const { PORT = 3001, MONGO_CONNECT: DB } = process.env;
 
 //routers
 const authRouter = require("./src/routes/authRouter");
+const playerRouter = require("./src/routes/playerRouter");
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use(express.static(path.join(__dirname, "../client/build")));
 // base routes
 
 app.use("/v1/auth", authRouter);
+app.use("/v1/player", playerRouter);
 // authenticated routes
 
 // for the static site
