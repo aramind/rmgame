@@ -1,8 +1,9 @@
+import { CssBaseline } from "@mui/material";
 function App() {
   return (
-    <div className="App">
-      <p>HEHEHEHEHE</p>
-    </div>
+    <>
+      <CssBaseline />
+    </>
   );
 }
 
