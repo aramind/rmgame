@@ -10,6 +10,10 @@ const registerSchema = y.object().shape({
     .string()
     .required(`${notEmpty}`)
     .min(4, "Must be at least 4 characters long"),
+  confirmPassword: y
+    .string()
+    .required("Please confirm your password")
+    .oneOf([y.ref("password"), null], "Passwords must match"),
 });
 
 export default registerSchema;

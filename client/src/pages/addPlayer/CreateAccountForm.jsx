@@ -31,7 +31,6 @@ const CreateAccountForm = () => {
       })}
     >
       <ControlledTextField name={`username`} label="username" />
-
       <Controller
         name="password"
         control={control}
@@ -56,6 +55,36 @@ const CreateAccountForm = () => {
               }}
             />
             <TextFieldError errorMessage={errors?.password?.message || ""} />
+          </Stack>
+        )}
+      />
+      {/* Confirm Password Field */}
+      <Controller
+        name="confirmPassword"
+        control={control}
+        render={({ field }) => (
+          <Stack>
+            <TextField
+              {...field}
+              id="create-account-password"
+              label="confirm password"
+              size="small"
+              fullWidth
+              error={!!errors?.confirmPassword}
+              type={showPassword ? "text" : "password"}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleShowPassword}>
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <TextFieldError
+              errorMessage={errors?.confirmPassword?.message || ""}
+            />
           </Stack>
         )}
       />

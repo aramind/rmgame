@@ -9,9 +9,10 @@ import {
   Typography,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
-// import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import CreateAccountForm from "./CreateAccountForm";
 import FormWrapper from "../../wrappers/FormWrapper";
+import registerSchema from "../../schemas/register";
 
 const AddAccountDialog = ({
   open = false,
@@ -26,7 +27,7 @@ const AddAccountDialog = ({
     formState: { errors },
   } = useForm({
     mode: "onTouched",
-    // resolver: yupResolver(),
+    resolver: yupResolver(registerSchema),
   });
 
   const formMethods = {
@@ -81,7 +82,13 @@ const AddAccountDialog = ({
           >
             CANCEL
           </Button>
-          <Button variant="contained" onClick={handleSubmit()} fullWidth>
+          <Button
+            variant="contained"
+            onClick={handleSubmit((formData) => {
+              console.log(formData);
+            })}
+            fullWidth
+          >
             {" "}
             SEND
           </Button>
