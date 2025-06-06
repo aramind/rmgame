@@ -18,8 +18,8 @@ const PlayerSchema = new mongoose.Schema(
       draws: { type: Number, default: 0 },
     },
     profileImage: {
-      type: String, // URL or path to image
-      default: "", // Optional
+      type: String,
+      default: "",
     },
   },
   { timestamps: true }

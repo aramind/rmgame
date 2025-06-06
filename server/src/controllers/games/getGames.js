@@ -29,7 +29,6 @@ const getGames = async (req, res) => {
         select: "username profileImage _id stats",
       });
 
-    // Apply pagination ONLY if both page and limit are provided
     if (page && limit) {
       const pageNum = parseInt(page);
       const limitNum = parseInt(limit);
