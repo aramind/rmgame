@@ -7,7 +7,7 @@ import { grey } from "@mui/material/colors";
 import LoadingPage from "../LoadingPage";
 import ErrorPage from "../ErrorPage";
 import TableCellContainer from "./TableCellContainer";
-import TableLabel from "../../components/TableLabel";
+
 import LeaderBoardHeader from "./LeaderBoardHeader";
 
 const LeaderBoard = () => {
