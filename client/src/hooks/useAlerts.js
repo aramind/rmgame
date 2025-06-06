@@ -25,7 +25,7 @@ const useAlerts = () => {
     autoHideDuration = 300000
   ) => {
     dispatch({
-      type: "SHOW_MINOR_ALERT",
+      type: "SHOW_ACK_ALERT",
       payload: {
         open: true,
         message,
