@@ -3,7 +3,7 @@ const gameController = require("../controllers/games/gameController");
 
 const router = express.Router();
 
-router.post("", gameController.addGame);
+router.post("/add", gameController.addGame);
 router.get("/:id", gameController.getGameById);
 router.get("", gameController.getGames);
 

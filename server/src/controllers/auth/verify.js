@@ -45,6 +45,7 @@ const verify = async (req, res) => {
     const responsePayload = {
       players: {
         playerR: {
+          _id: player1._id,
           username: player1.username,
           stats: player1.stats,
           profileImage: player1.profileImage,
@@ -53,6 +54,7 @@ const verify = async (req, res) => {
           name: playerR.name,
         },
         playerM: {
+          _id: player2._id,
           username: player2.username,
           stats: player2.stats,
           profileImage: player2.profileImage,

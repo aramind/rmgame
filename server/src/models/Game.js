@@ -14,16 +14,19 @@ const GameSchema = new mongoose.Schema(
       required: true,
     },
     displayNames: {
-      R: { type: String, required: true },
-      M: { type: String, required: true },
+      R: { type: String },
+      M: { type: String },
     },
     board: {
-      content: {
-        type: [String],
-        default: ["", "", "", "", "", "", "", "", ""],
-      },
+      type: [String],
+      default: ["", "", "", "", "", "", "", "", ""],
     },
     winner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: Player,
+      default: null,
+    },
+    loser: {
       type: mongoose.Schema.Types.ObjectId,
       ref: Player,
       default: null,

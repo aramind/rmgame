@@ -7,25 +7,36 @@ const addGame = async (req, res) => {
   const session = await mongoose.startSession();
   session.startTransaction();
 
+  let transactionCommitted = false;
+  const gameData = req.body;
+
   try {
-    const { game, winner, loser, isDraw } = req.body;
+    const game = {
+      playerR: gameData.playerR,
+      playerM: gameData.playerM,
+      displayNames: gameData.displayNames,
+      board: gameData.board,
+      winner: gameData?.winner,
+      loser: gameData?.loser,
+      isDraw: gameData?.isDraw,
+    };
 
     const newGame = new Game(game);
 
-    if (isDraw) {
+    if (gameData.isDraw) {
       await Player.updateMany(
         { _id: { $in: [game.playerR, game.playerM] } },
         { $inc: { "stats.draws": 1 } },
         { session }
       );
-    } else if (winner && loser) {
+    } else if (gameData.winner && gameData.loser) {
       await Player.findByIdAndUpdate(
-        winner,
+        gameData.winner,
         { $inc: { "stats.wins": 1 } },
         { session }
       );
       await Player.findByIdAndUpdate(
-        loser,
+        gameData.loser,
         { $inc: { "stats.losses": 1 } },
         { session }
       );
