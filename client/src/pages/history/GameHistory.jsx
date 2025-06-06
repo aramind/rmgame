@@ -28,6 +28,7 @@ const GameHistory = () => {
   const [hasMore, setHasMore] = useState(true);
   const [queryParams, setQueryParams] = useState("");
   const [selectedGame, setSelectedGame] = useState(null);
+  const [openGDModal, setOpenGDModal] = useState(false);
   const { get } = useGameReq();
 
   const {
@@ -169,7 +170,10 @@ const GameHistory = () => {
             />
             <IconButton
               aria-label="delete"
-              onClick={() => setSelectedGame(game)}
+              onClick={() => {
+                setOpenGDModal(true);
+                setSelectedGame(game);
+              }}
             >
               <InfoIcon color="secondary" />
             </IconButton>
@@ -196,7 +200,11 @@ const GameHistory = () => {
           No more games to load.
         </Typography>
       )}
-      <GameDetailModal game={selectedGame} />
+      <GameDetailModal
+        game={selectedGame}
+        open={openGDModal}
+        setOpen={setOpenGDModal}
+      />
     </Box>
   );
 };
