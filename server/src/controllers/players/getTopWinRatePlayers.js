@@ -25,7 +25,7 @@ const getTopWinRatePlayers = async (req, res) => {
       })
       .filter(Boolean)
       .sort((a, b) => b.winRatio - a.winRatio)
-      .slice(0, 20);
+      .slice(0, 10);
 
     if (!playersWithRatios) {
       sendResponse.failed(res, "Not enough data yet.", null, 404);
