@@ -23,8 +23,8 @@ import GameHistoryHeader from "./GameHistoryHeader";
 
 const GameHistory = () => {
   const isInMobile = useIsInMobile();
-  const [limit, setLimit] = useState("40");
-  const [page, setPage] = useState("1");
+  const [limit, setLimit] = useState(40);
+  const [page, setPage] = useState(1);
   const [games, setGames] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [queryParams, setQueryParams] = useState("");
