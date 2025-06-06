@@ -6,6 +6,9 @@ import { formatToMMDDYYYY } from "../../utils/date";
 import SmallBoard from "./SmallBoard";
 import formatBoard from "../../utils/formatBoard";
 
+import GameDetail from "./GameDetail";
+import { grey } from "@mui/material/colors";
+
 const GameHistory = () => {
   const [limit, setLimit] = useState("50");
   const [page, setPage] = useState("1");
@@ -43,76 +46,70 @@ const GameHistory = () => {
   return (
     <Box width={1}>
       <Typography>GAME HISTORY</Typography>
-      <Box
-        marginX="auto"
-        width={{ xs: "90vw", md: "80vw" }}
-        className="outlined2"
-      >
+      <Box marginX="auto" width={{ xs: "90vw", md: "80vw" }}>
         {games.map((game, index) => (
           <Stack
             key={`${game?._id}${index}`}
-            mb={1}
             width={1}
             direction="row"
             alignItems="center"
-            className="outlined3"
             justifyContent="center"
+            border="1px solid"
+            borderColor={grey[800]}
           >
+            {/* index */}
+            <GameDetail flex="0.3" detail={index + 1} />
             {/* date */}
-            <Box flex={1} width={1}>
-              <Typography>{formatToMMDDYYYY(game?.createdAt)}</Typography>
-            </Box>
+            <GameDetail detail={formatToMMDDYYYY(game?.createdAt)} />
             {/* player R */}
-            <Box flex={1}>
-              <Stack direction="row" alignItems="center" gap={1}>
-                <Typography>{game?.playerR?.username}</Typography>
-
-                <Box className="centered">
-                  <Avatar
-                    src={game?.playerR?.profileImage}
-                    alt={game?.playerR?.username}
-                    sx={{ width: 20, height: 20 }}
-                  />
-                </Box>
-              </Stack>
-            </Box>
-            {/* player M */}
-            <Box flex={1}>
-              <Stack direction="row" alignItems="center" gap={1}>
-                <Typography>{game?.playerM?.username}</Typography>
-                <Box className="centered">
-                  <Avatar
-                    src={game?.playerM?.profileImage}
-                    alt={game?.playerM?.username}
-                    sx={{ width: 20, height: 20 }}
-                  />
-                </Box>
-              </Stack>
-            </Box>
-            {/* winner */}
-            <Box flex={1}>
-              {game?.isDraw ? (
-                <Typography>DRAW</Typography>
-              ) : (
+            <GameDetail
+              detail={
                 <Stack direction="row" alignItems="center" gap={1}>
+                  <Typography>{game?.playerR?.username}</Typography>
                   <Box className="centered">
                     <Avatar
-                      src={game?.winner?.profileImage}
-                      alt={game?.winner?.username}
+                      src={game?.playerR?.profileImage}
+                      alt={game?.playerR?.username}
                       sx={{ width: 20, height: 20 }}
                     />
                   </Box>
                 </Stack>
-              )}
-            </Box>
-            {/* board */}
-            {/* <Box flex={1}>
-            <Typography>{game?.board}</Typography>
-          </Box>
-          <Box flex={1}>
-            <SmallBoard board={game?.board} />
-          </Box> */}
-            {/* <Box flex={1}>{formatBoard(game?.board)}</Box> */}
+              }
+            />
+            {/* player M */}
+            <GameDetail
+              detail={
+                <Stack direction="row" alignItems="center" gap={1}>
+                  <Typography>{game?.playerM?.username}</Typography>
+                  <Box className="centered">
+                    <Avatar
+                      src={game?.playerM?.profileImage}
+                      alt={game?.playerM?.username}
+                      sx={{ width: 20, height: 20 }}
+                    />
+                  </Box>
+                </Stack>
+              }
+            />
+
+            {/* winner */}
+            <GameDetail
+              detail={
+                game?.isDraw ? (
+                  <Typography>DRAW</Typography>
+                ) : (
+                  <Stack direction="row" alignItems="center" gap={1}>
+                    <Box className="centered">
+                      <Avatar
+                        src={game?.winner?.profileImage}
+                        alt={game?.winner?.username}
+                        sx={{ width: 20, height: 20 }}
+                      />
+                    </Box>
+                  </Stack>
+                )
+              }
+            />
             <Box flex={1}>
               <Button variant="outlined">DETAILS</Button>
             </Box>
