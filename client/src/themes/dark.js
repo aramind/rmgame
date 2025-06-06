@@ -57,6 +57,13 @@ const darkTheme = createTheme({
           "&:hover": {
             backgroundColor: COLORS.secondary.light,
           },
+          "&.Mui-disabled": {
+            borderColor: COLORS.white.light,
+            backgroundColor: COLORS.white.light,
+            color: COLORS.white.dark,
+            opacity: 0.5,
+            cursor: "not-allowed",
+          },
         },
         outlined: {
           color: COLORS.white.main,

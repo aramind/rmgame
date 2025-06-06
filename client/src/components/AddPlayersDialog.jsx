@@ -24,7 +24,7 @@ const AddPlayersDialog = ({
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid, isDirty },
   } = useForm({
     mode: "onTouched",
     resolver: yupResolver(addPlayerSchema),
@@ -106,6 +106,7 @@ const AddPlayersDialog = ({
             variant="contained"
             onClick={handleSubmit(sendPlayRequest)}
             fullWidth
+            disabled={!isDirty || !isValid}
           >
             {" "}
             PLAY
