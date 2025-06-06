@@ -18,15 +18,15 @@ const getGames = async (req, res) => {
       .sort({ createdAt: -1 })
       .populate({
         path: "playerR",
-        select: "username profileImage _id",
+        select: "username profileImage _id stats",
       })
       .populate({
         path: "playerM",
-        select: "username profileImage _id",
+        select: "username profileImage _id stats",
       })
       .populate({
         path: "winner",
-        select: "username profileImage _id",
+        select: "username profileImage _id stats",
       });
 
     // Apply pagination ONLY if both page and limit are provided
