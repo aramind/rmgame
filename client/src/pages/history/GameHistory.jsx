@@ -19,17 +19,24 @@ import Pagination from "./Pagination";
 import GameDetailModal from "./GameDetailModal";
 import GameHistoryHeader from "./GameHistoryHeader";
 import ErrorPage from "../../pages/ErrorPage";
+import DisplayedGames from "./DisplayedGames";
 
 const GameHistory = () => {
   const isInMobile = useIsInMobile();
+  const { get } = useGameReq();
+
+  const [games, setGames] = useState([]);
   const [limit, setLimit] = useState(40);
   const [page, setPage] = useState(1);
-  const [games, setGames] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
   const [queryParams, setQueryParams] = useState("");
+  const [hasMore, setHasMore] = useState(true);
+
   const [selectedGame, setSelectedGame] = useState(null);
   const [openGDModal, setOpenGDModal] = useState(false);
-  const { get } = useGameReq();
+
+  //   for pagination
+  const [displayPage, setDisplayPage] = useState(1);
+  const itemsPerPage = 20;
 
   const {
     data: gamesData,
@@ -47,10 +54,6 @@ const GameHistory = () => {
       }
     }
   }, [gamesData?.data, limit]);
-
-  //   for pagination
-  const [displayPage, setDisplayPage] = useState(1);
-  const itemsPerPage = 20;
 
   const startIndex = (displayPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -78,113 +81,14 @@ const GameHistory = () => {
           </Typography>
         </Box>
         <GameHistoryHeader />
-        {displayedGames &&
-          displayedGames.map((game, index) => (
-            <Stack
-              key={`${game?._id}${index}`}
-              width={1}
-              direction="row"
-              alignItems="center"
-              justifyContent="center"
-              border="1px solid"
-              borderColor={grey[800]}
-            >
-              {/* index */}
-              <GameDetail flex="0.3" detail={startIndex + index + 1} />
-              {/* date */}
-              <GameDetail detail={formatToMMDDYYYY(game?.createdAt)} />
-              {/* player R */}
-              {isInMobile ? (
-                <Stack>
-                  <GameDetail
-                    detail={
-                      <Typography fontSize="0.8rem">
-                        {game?.playerR?.username}
-                      </Typography>
-                    }
-                  />
-                  {/* player M */}
-                  <GameDetail
-                    detail={
-                      <Typography fontSize="0.8rem">
-                        {game?.playerM?.username}
-                      </Typography>
-                    }
-                  />
-                </Stack>
-              ) : (
-                <>
-                  <GameDetail
-                    detail={
-                      <Stack direction="row" alignItems="center" gap={1}>
-                        <Typography>{game?.playerR?.username}</Typography>
-                        <Box className="centered">
-                          <Avatar
-                            src={game?.playerR?.profileImage}
-                            alt={game?.playerR?.username}
-                            sx={{ width: 20, height: 20 }}
-                          />
-                        </Box>
-                      </Stack>
-                    }
-                  />
-                  {/* player M */}
-                  <GameDetail
-                    detail={
-                      <Stack direction="row" alignItems="center" gap={1}>
-                        <Typography>{game?.playerM?.username}</Typography>
-                        <Box className="centered">
-                          <Avatar
-                            src={game?.playerM?.profileImage}
-                            alt={game?.playerM?.username}
-                            sx={{ width: 20, height: 20 }}
-                          />
-                        </Box>
-                      </Stack>
-                    }
-                  />
-                </>
-              )}
-
-              {/* winner */}
-              <GameDetail
-                detail={
-                  game?.isDraw ? (
-                    <Typography>DRAW</Typography>
-                  ) : (
-                    <Stack direction="column" alignItems="center" gap={1}>
-                      <Box className="centered">
-                        <Avatar
-                          src={game?.winner?.profileImage}
-                          alt={game?.winner?.username}
-                          sx={{ width: 20, height: 20 }}
-                        />
-                      </Box>
-                      {isInMobile && (
-                        <Typography fontSize="0.8rem">
-                          {game?.winner?.username}
-                        </Typography>
-                      )}
-                    </Stack>
-                  )
-                }
-              />
-              <GameDetail
-                flex="0.3"
-                detail={
-                  <IconButton
-                    aria-label="delete"
-                    onClick={() => {
-                      setOpenGDModal(true);
-                      setSelectedGame(game);
-                    }}
-                  >
-                    <InfoIcon color="secondary" />
-                  </IconButton>
-                }
-              />
-            </Stack>
-          ))}
+        {displayedGames && (
+          <DisplayedGames
+            displayedGames={displayedGames}
+            startIndex={startIndex}
+            setOpenGDModal={setOpenGDModal}
+            setSelectedGame={selectedGame}
+          />
+        )}
         <Pagination
           displayPage={displayPage}
           setDisplayPage={setDisplayPage}
