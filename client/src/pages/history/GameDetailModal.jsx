@@ -21,6 +21,7 @@ const GameDetailModal = ({ open = true, setOpen, game }) => {
     e.stopPropagation();
   };
 
+  console.log(game);
   return (
     <Dialog
       open={open}

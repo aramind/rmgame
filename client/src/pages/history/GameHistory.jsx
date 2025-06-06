@@ -19,6 +19,7 @@ import { grey } from "@mui/material/colors";
 import { InfoIcon, InfoOutlined } from "../../utils/muiIcons";
 import Pagination from "./Pagination";
 import GameDetailModal from "./GameDetailModal";
+import GameHistoryHeader from "./GameHistoryHeader";
 
 const GameHistory = () => {
   const isInMobile = useIsInMobile();
@@ -78,6 +79,7 @@ const GameHistory = () => {
             GAME HISTORY
           </Typography>
         </Box>
+        <GameHistoryHeader />
         {displayedGames.map((game, index) => (
           <Stack
             key={`${game?._id}${index}`}
@@ -168,15 +170,20 @@ const GameHistory = () => {
                 )
               }
             />
-            <IconButton
-              aria-label="delete"
-              onClick={() => {
-                setOpenGDModal(true);
-                setSelectedGame(game);
-              }}
-            >
-              <InfoIcon color="secondary" />
-            </IconButton>
+            <GameDetail
+              flex="0.3"
+              detail={
+                <IconButton
+                  aria-label="delete"
+                  onClick={() => {
+                    setOpenGDModal(true);
+                    setSelectedGame(game);
+                  }}
+                >
+                  <InfoIcon color="secondary" />
+                </IconButton>
+              }
+            />
           </Stack>
         ))}
         <Pagination

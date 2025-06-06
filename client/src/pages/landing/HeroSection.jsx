@@ -17,7 +17,7 @@ const HeroSection = () => {
     useAuthActions({ handleCloseDialog: handleGoToPlay });
   return (
     <>
-      <Stack width={1} height="80vh" className="centered">
+      <Stack width={1} height="75vh" className="centered">
         <Title />
         <Stack width={{ xs: "80vw", md: "300px" }} gap={2}>
           <Button
