@@ -97,12 +97,13 @@ const AddPlayersDialog = ({
         </FormWrapper>
       </DialogContent>
       <DialogActions>
-        <Stack spacing={2} direction="row">
+        <Stack spacing={2} direction="row" mb={1}>
           <Button
             variant="outlined"
             onClick={() => setOpen(false)}
             width={{ xs: "250px", md: "300px" }}
             fullWidth
+            size="large"
           >
             CANCEL
           </Button>
@@ -111,6 +112,7 @@ const AddPlayersDialog = ({
             onClick={handleSubmit(sendPlayRequest)}
             fullWidth
             disabled={!isDirty || !isValid}
+            size="large"
           >
             {" "}
             PLAY
