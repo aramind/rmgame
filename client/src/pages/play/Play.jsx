@@ -7,7 +7,6 @@ import checkWinner from "../../utils/checkWinner";
 import { useGlobalState } from "../../context/GlobalStateProvider";
 import Player from "./Player";
 import PlayersInMobile from "./PlayersInMobile";
-import GameEndDialog from "./GameEndDialog";
 
 const Play = () => {
   const {
@@ -19,7 +18,6 @@ const Play = () => {
   const [winningLine, setWinningLine] = useState([]);
   const [winner, setWinner] = useState("");
   const [ended, setEnded] = useState(false);
-  const [openGEDialog, setOpenGEDialog] = useState(false);
   const isInMobile = useIsInMobile();
 
   useEffect(() => {
@@ -53,9 +51,6 @@ const Play = () => {
     }
   };
 
-  useEffect(() => {
-    setOpenGEDialog(true);
-  }, [ended]);
   const text = {
     none: `Draw`,
     R: `Winner is R (${players?.playerR?.name})`,
