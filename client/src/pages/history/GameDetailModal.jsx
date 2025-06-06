@@ -12,6 +12,7 @@ import {
 import React from "react";
 import SmallBoard from "./SmallBoard";
 import { CloseIcon } from "../../utils/muiIcons";
+import PlayerInfoForModal from "./PlayerInfoForModal";
 
 const GameDetailModal = ({ open = true, setOpen, game }) => {
   if (!game) return null;
@@ -28,14 +29,7 @@ const GameDetailModal = ({ open = true, setOpen, game }) => {
       onClose={handleClose}
       slotProps={{
         paper: {
-          sx: {
-            width: { xs: "100vw", md: "50vw", xl: "40vw" },
-            // height: { xs: "90vh", md: "80vh" },
-            backgroundColor: (theme) => theme.palette.black.main,
-            color: (theme) => theme.palette.white.dark,
-            borderRadius: 2,
-            p: 1,
-          },
+          sx: localStyles?.paper,
         },
       }}
       maxWidth="xl"
@@ -48,37 +42,11 @@ const GameDetailModal = ({ open = true, setOpen, game }) => {
       </Stack>
       <DialogContent>
         <Stack direction="row" className="centered">
-          <Stack flex={1} direction="column" className="centered " gap={1}>
-            <Typography fontSize={{ md: "1.5rem" }} color="primary">
-              Player R
-            </Typography>
-            <Box className="centered">
-              <Avatar
-                src={game?.playerR?.profileImage}
-                alt={game?.playerR?.username}
-                sx={{ width: 50, height: 50 }}
-              />
-            </Box>
-
-            <Typography>{game?.playerR?.username}</Typography>
-          </Stack>
+          <PlayerInfoForModal player={game?.playerR} title="Player R" />
           <Box flex={1} width={1} className="centered ">
             <SmallBoard board={game?.board} />
           </Box>
-          <Stack flex={1} direction="column" gap={1} className="centered ">
-            <Typography fontSize={{ md: "1.5rem" }} color="primary">
-              Player M
-            </Typography>
-            <Box className="centered">
-              <Avatar
-                src={game?.playerM?.profileImage}
-                alt={game?.playerM?.username}
-                sx={{ width: 50, height: 50 }}
-              />
-            </Box>
-
-            <Typography>{game?.playerR?.username}</Typography>
-          </Stack>
+          <PlayerInfoForModal player={game?.playerM} title="Player M" />
         </Stack>
       </DialogContent>
     </Dialog>
@@ -86,3 +54,13 @@ const GameDetailModal = ({ open = true, setOpen, game }) => {
 };
 
 export default GameDetailModal;
+
+const localStyles = {
+  paper: {
+    width: { xs: "100vw", md: "50vw", xl: "40vw" },
+    backgroundColor: (theme) => theme.palette.black.main,
+    color: (theme) => theme.palette.white.dark,
+    borderRadius: 2,
+    p: 1,
+  },
+};
