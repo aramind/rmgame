@@ -47,19 +47,23 @@ const useAuthActions = ({ handleCloseDialog, handleCloseRegDialog }) => {
       try {
         const res = await sendPlay(data, { showFeedbackMsg: true });
 
-        const playerData = res?.data?.players;
-        const players = {
-          R: {
-            _id: playerData?.playerR?._id,
-            gameName: playerData?.playerR.name || playerData?.playerR.username,
-          },
-          M: {
-            _id: playerData?.playerM?._id,
-            gameName: playerData?.playerM.name || playerData?.playerM.username,
-          },
-        };
-        localStorage.setItem("players", JSON.stringify(players));
-        handleCloseDialog();
+        if (res?.success) {
+          const playerData = res?.data?.players;
+          const players = {
+            R: {
+              _id: playerData?.playerR?._id,
+              gameName:
+                playerData?.playerR.name || playerData?.playerR.username,
+            },
+            M: {
+              _id: playerData?.playerM?._id,
+              gameName:
+                playerData?.playerM.name || playerData?.playerM.username,
+            },
+          };
+          localStorage.setItem("players", JSON.stringify(players));
+          handleCloseDialog();
+        }
       } catch (error) {
         console.error(error);
       }
