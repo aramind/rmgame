@@ -18,6 +18,7 @@ const PlayerInfo = ({ player, withName = true }) => (
     </Box>
   </Stack>
 );
+
 const DisplayedGames = ({
   displayedGames,
   startIndex,
