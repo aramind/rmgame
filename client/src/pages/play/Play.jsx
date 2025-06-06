@@ -8,6 +8,8 @@ import { useGlobalState } from "../../context/GlobalStateProvider";
 import Player from "./Player";
 import PlayersInMobile from "./PlayersInMobile";
 import { useNavigate } from "react-router-dom";
+import GameEndActions from "./GameEndActions";
+import GameStatus from "./GameStatus";
 
 const Play = () => {
   const {
@@ -77,10 +79,7 @@ const Play = () => {
   };
 
   const onExit = () => {
-    // Clear localStorage and globalState
     localStorage.removeItem("players");
-    dispatch({ type: "SET_PLAYERS", payload: null }); // optional based on how you handle null
-    // Navigate to landing
     navigate("/");
   };
   return (
@@ -92,18 +91,7 @@ const Play = () => {
     >
       <NavBar />
       <Stack mt={4} height={1} className="centered">
-        <Stack
-          className="centered "
-          gap={{ xs: 1, md: 2 }}
-          width={{ xs: "100%", md: "50%" }}
-        >
-          <Box className="centered" flex={1}>
-            <Typography variant="h5" gutterBottom>
-              {text[winner] || `Current Turn: ${currentPlayer}`}
-            </Typography>
-          </Box>
-        </Stack>
-
+        <GameStatus text={text[winner] || `Current Turn: ${currentPlayer}`} />
         <Stack
           direction={{ xs: "column", md: "row" }}
           gap={2}
@@ -132,24 +120,7 @@ const Play = () => {
           )}
         </Stack>
 
-        {ended && (
-          <Stack
-            mt={2}
-            direction="row"
-            className="centered"
-            gap={2}
-            width={1}
-            flex={1}
-          >
-            <Typography>Play again?</Typography>
-            <Button variant="outlined" onClick={onExit}>
-              No
-            </Button>
-            <Button variant="contained" onClick={onContinue}>
-              Yes
-            </Button>
-          </Stack>
-        )}
+        {ended && <GameEndActions onExit={onExit} onContinue={onContinue} />}
         {isInMobile && <PlayersInMobile players={players} />}
       </Stack>
     </Box>
