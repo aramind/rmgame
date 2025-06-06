@@ -7,6 +7,7 @@ import checkWinner from "../../utils/checkWinner";
 import { useGlobalState } from "../../context/GlobalStateProvider";
 import Player from "./Player";
 import PlayersInMobile from "./PlayersInMobile";
+import { useNavigate } from "react-router-dom";
 
 const Play = () => {
   const {
@@ -14,11 +15,14 @@ const Play = () => {
     dispatch,
   } = useGlobalState();
   const [board, setBoard] = useState(Array(9).fill(""));
-  const [currentPlayer, setCurrentPlayer] = useState("R");
+  const [currentPlayer, setCurrentPlayer] = useState(
+    Math.random() < 0.5 ? "R" : "M"
+  );
   const [winningLine, setWinningLine] = useState([]);
   const [winner, setWinner] = useState("");
   const [ended, setEnded] = useState(false);
   const isInMobile = useIsInMobile();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedPlayers = localStorage.getItem("players");
@@ -59,9 +63,26 @@ const Play = () => {
 
   // handlers
 
-  const onContinue = () => {};
+  const onContinue = () => {
+    setBoard(Array(9).fill(""));
+    if (!winner || winner === "none") {
+      const random = Math.random() < 0.5 ? "R" : "M";
+      setCurrentPlayer(random);
+    } else {
+      setCurrentPlayer(winner === "R" ? "M" : "R");
+    }
+    setWinningLine([]);
+    setWinner("");
+    setEnded(false);
+  };
 
-  const onExit = () => {};
+  const onExit = () => {
+    // Clear localStorage and globalState
+    localStorage.removeItem("players");
+    dispatch({ type: "SET_PLAYERS", payload: null }); // optional based on how you handle null
+    // Navigate to landing
+    navigate("/");
+  };
   return (
     <Box
       pt="80px"
@@ -121,8 +142,12 @@ const Play = () => {
             flex={1}
           >
             <Typography>Play again?</Typography>
-            <Button variant="outlined">No</Button>
-            <Button variant="contained">Yes</Button>
+            <Button variant="outlined" onClick={onExit}>
+              No
+            </Button>
+            <Button variant="contained" onClick={onContinue}>
+              Yes
+            </Button>
           </Stack>
         )}
         {isInMobile && <PlayersInMobile players={players} />}
