@@ -47,8 +47,6 @@ const AddAccountDialog = ({
       slotProps={{
         paper: {
           sx: {
-            // height: { xs: "90vh", md: "80vh" },
-
             backgroundColor: (theme) => theme.palette.black.main,
             color: (theme) => theme.palette.white.dark,
             borderRadius: 2,

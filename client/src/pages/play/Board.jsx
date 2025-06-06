@@ -29,54 +29,18 @@ const Board = ({
         const isEmpty = value === "";
         const isWinningCell = winningLine.includes(index);
         return (
-          // <Box
-          //   key={index}
-          //   sx={{
-          //     aspectRatio: "1",
-          //     width: "100%",
-          //     borderTop: row === 0 ? "none" : "1px solid #ccc",
-          //     borderLeft: col === 0 ? "none" : "1px solid #ccc",
-          //   }}
-          // >
-          //   <Button
-          //     variant="text"
-          //     fullWidth
-          //     sx={{
-          //       width: "100%",
-          //       height: "100%",
-          //     }}
-          //     onClick={() => onCellClick(index)}
-          //     disabled={disabled || value !== ""}
-          //   >
-          //     <Typography
-          //       fontSize={{ xs: "4rem", md: "5rem" }}
-          //       fontWeight="bold"
-          //       color={value === "R" ? "primary" : "secondary"}
-          //     >
-          //       {value}
-          //     </Typography>
-          //   </Button>
-          // </Box>
           <Box
             key={index}
             onClick={() => !disabled && isEmpty && onCellClick(index)}
             sx={{
-              aspectRatio: "1",
-              width: "100%",
               borderTop: row === 0 ? "none" : "1px solid #ccc",
               borderLeft: col === 0 ? "none" : "1px solid #ccc",
-              position: "relative",
               cursor: isEmpty && !disabled ? "pointer" : "default",
-              // pointerEvents: disabled ? "none" : "auto",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
               backgroundColor: isWinningCell
                 ? "rgba(25, 118, 210, 0.15)"
                 : "transparent",
-              "&:hover .hover-preview": {
-                opacity: 0.1,
-              },
+              // pointerEvents: disabled ? "none" : "auto",
+              ...localStyles?.board,
             }}
           >
             {value ? (
@@ -111,3 +75,17 @@ const Board = ({
 };
 
 export default Board;
+
+const localStyles = {
+  board: {
+    position: "relative",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    aspectRatio: "1",
+    width: "100%",
+    "&:hover .hover-preview": {
+      opacity: 0.1,
+    },
+  },
+};

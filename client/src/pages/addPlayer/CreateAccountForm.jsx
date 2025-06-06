@@ -21,15 +21,7 @@ const CreateAccountForm = () => {
   };
 
   return (
-    <Box
-      width="100%"
-      sx={(theme) => ({
-        backgroundColor: theme.palette.white.main,
-        color: theme.palette.white.dark,
-        borderRadius: 2,
-        p: 2,
-      })}
-    >
+    <Box width="100%" sx={localStyles.container}>
       <ControlledTextField name={`username`} label="username" />
       <Controller
         name="password"
@@ -93,3 +85,12 @@ const CreateAccountForm = () => {
 };
 
 export default CreateAccountForm;
+
+const localStyles = {
+  container: {
+    backgroundColor: (theme) => theme.palette.white.main,
+    color: (theme) => theme.palette.white.dark,
+    borderRadius: 2,
+    p: 2,
+  },
+};
