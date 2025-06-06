@@ -5,6 +5,8 @@ import usePlayerReq from "../../hooks/api/player/usePlayerReq";
 import useApiGet from "../../hooks/api/useApiGet";
 import GameDetail from "../history/GameDetail";
 import { grey } from "@mui/material/colors";
+import LoadingPage from "../LoadingPage";
+import ErrorPage from "../ErrorPage";
 
 const Label = ({ label }) => (
   <Typography
@@ -28,11 +30,18 @@ const LeaderBoard = () => {
 
   const topPlayers = topwins?.data;
 
+  if (isLoadingInTopWins) {
+    return <LoadingPage />;
+  }
+
+  if (isErrorInTopWins) {
+    return <ErrorPage />;
+  }
   return (
-    <Box marginX="auto" width={{ xs: "90vw", md: "80vw" }} className="outined">
+    <Box marginX="auto" width={{ xs: "90vw", md: "80vw" }}>
       <Box mb={2}>
         <Typography variant={useIsInMobile ? "h5" : "h4"} textAlign="center">
-          LEADERBOARD
+          🥳💪💯LEADERBOARD 💥⚡🚀
         </Typography>
       </Box>
       <Stack
