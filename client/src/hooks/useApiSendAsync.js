@@ -14,6 +14,7 @@ const useApiSendAsync = (fn, invalidateKey, options) => {
     try {
       const res = await mutation.mutateAsync(variables);
 
+      console.log("RES", res);
       if (invalidateKey) {
         invalidateKey.forEach((key) => queryClient.invalidateQueries(key));
       }
@@ -25,6 +26,7 @@ const useApiSendAsync = (fn, invalidateKey, options) => {
             "success"
           );
         } else {
+          console.log("IM HERE IN SUCCESS FALSE");
           showAckAlert(
             message || res?.message || "Something went wrong.",
             "error"
@@ -34,6 +36,7 @@ const useApiSendAsync = (fn, invalidateKey, options) => {
 
       return res;
     } catch (error) {
+      console.log("❗ CAUGHT ERROR in send:", error);
       if (showFeedbackMsg) {
         console.error(error);
         showAckAlert(`Request failed: ${error?.message}`, "error");

@@ -2,9 +2,19 @@ import { Box, Stack, Typography } from "@mui/material";
 import { red } from "@mui/material/colors";
 import React, { useState } from "react";
 import AddAccountDialog from "./AddAccountDialog";
+import useAuthActions from "../../hooks/api/auth/useAuthActions";
 
 const AddAccount = () => {
   const [openCreateAccountDialog, setOpenCreateAccountDialog] = useState(false);
+
+  const handleCloseCreateAccountDialog = () => {
+    setOpenCreateAccountDialog(false);
+  };
+
+  const { handleConfirmRegister, renderConfirmActionDialog } = useAuthActions({
+    handleCloseRegDialog: handleCloseCreateAccountDialog,
+  });
+
   return (
     <>
       <Stack width={1} direction="row" px={1} mb={2}>
@@ -27,7 +37,9 @@ const AddAccount = () => {
       <AddAccountDialog
         open={openCreateAccountDialog}
         setOpen={setOpenCreateAccountDialog}
+        handleConfirm={handleConfirmRegister}
       />
+      {renderConfirmActionDialog()}
     </>
   );
 };

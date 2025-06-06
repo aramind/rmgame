@@ -16,18 +16,18 @@ function AckAlert() {
   };
   return (
     <Snackbar
-      open={alert.open}
+      open={ackAlert.open}
       onClose={handleClose}
-      autoHideDuration={alert.autoHideDuration}
+      autoHideDuration={ackAlert.autoHideDuration}
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
       sx={{ zIndex: "999999" }}
     >
       <Alert
-        severity={alert.severity}
+        severity={ackAlert.severity}
         onClose={handleClose}
         sx={{ display: "flex", alignItems: "center" }}
       >
-        {alert.message}
+        {ackAlert.message}
       </Alert>
     </Snackbar>
   );

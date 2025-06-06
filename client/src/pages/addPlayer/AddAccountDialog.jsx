@@ -19,7 +19,7 @@ const AddAccountDialog = ({
   setOpen,
   title = "",
   maxWidth = "",
-  handleConfirmSubmit,
+  handleConfirm,
 }) => {
   const {
     control,
@@ -85,7 +85,7 @@ const AddAccountDialog = ({
           <Button
             variant="contained"
             onClick={handleSubmit((formData) => {
-              console.log(formData);
+              handleConfirm(formData);
             })}
             fullWidth
           >

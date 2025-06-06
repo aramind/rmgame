@@ -4,7 +4,7 @@ import useConfirmActionDialog from "../../useConfirmActionDialog";
 import useApiSendAsync from "../../useApiSendAsync";
 import { useGlobalState } from "../../../context/GlobalStateProvider";
 
-const useAuthActions = ({ handleCloseDialog }) => {
+const useAuthActions = ({ handleCloseDialog, handleCloseRegDialog }) => {
   const { verify, register } = useAuthReq();
   const { dispatch } = useGlobalState();
 
@@ -26,21 +26,26 @@ const useAuthActions = ({ handleCloseDialog }) => {
     "players",
   ]);
 
+  const { send: sendRegister, isLoadingInReg } = useApiSendAsync(register, [
+    "players",
+  ]);
+
+  const handleConfirmRegister = (data) => {
+    handleConfirm("", "Confirm Registering Account", async () => {
+      try {
+        const res = await sendRegister(data, { showFeedbackMsg: true });
+        if (res?.success) {
+          handleCloseRegDialog();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  };
   const handleConfirmPlay = (data) => {
     handleConfirm("Confirm Play", "Are the details correct?", async () => {
       try {
         const res = await sendPlay(data, { showFeedbackMsg: true });
-        // const players = {
-        //   R: res?.data?.players?.playerR?._id,
-        //   M: res?.data?.players?.playerM._id,
-        // };
-        // console.log(players);
-        // if (res?.success) {
-        //   console.log(res?.data);
-        //   dispatch({
-        //     type: "SET_PLAYERS",
-        //     payload: res?.data?.players,
-        //   });
 
         const playerData = res?.data?.players;
         const players = {
@@ -61,8 +66,13 @@ const useAuthActions = ({ handleCloseDialog }) => {
     });
   };
 
-  const isLoading = isLoadingInPlay;
-  return { handleConfirmPlay, renderConfirmActionDialog, isLoading };
+  const isLoading = isLoadingInPlay || isLoadingInReg;
+  return {
+    handleConfirmPlay,
+    handleConfirmRegister,
+    renderConfirmActionDialog,
+    isLoading,
+  };
 };
 
 export default useAuthActions;
