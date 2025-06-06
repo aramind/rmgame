@@ -20,7 +20,7 @@ const NavBar = () => {
           justifyContent="space-between"
           width={1}
           alignItems="center"
-          pr={4}
+          pr={{ md: 4 }}
         >
           <NavLink to={"/"}>
             <Typography
