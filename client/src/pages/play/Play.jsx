@@ -1,26 +1,31 @@
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import NavBar from "../../components/navbar/NavBar";
 import useIsInMobile from "../../hooks/useIsInMobile";
 import Board from "./Board";
 import checkWinner from "../../utils/checkWinner";
-import { useGlobalState } from "../../context/GlobalStateProvider";
 import Player from "./Player";
 import PlayersInMobile from "./PlayersInMobile";
 import { useNavigate } from "react-router-dom";
 import GameEndActions from "./GameEndActions";
 import GameStatus from "./GameStatus";
 import useGameActions from "../../hooks/api/game/useGameActions";
-import usePlayerActions from "../../hooks/api/player/usePlayerActions";
 import useApiGet from "../../hooks/api/useApiGet";
 import usePlayerReq from "../../hooks/api/player/usePlayerReq";
+import useLocalStorage from "../../hooks/useLocalStorage";
+import ErrorPage from "../ErrorPage";
+import LoadingPage from "../LoadingPage";
 
 const Play = () => {
   const { sendAddGame } = useGameActions({ handleCloseDialog: {} });
   const { getById } = usePlayerReq();
+  // const {
+  //   dispatch,
+  //   globalState: { players },
+  // } = useGlobalState();
+  const { value: playersInLocal } = useLocalStorage("players");
   // states
-  const [playersInLocal, setPlayersInLocal] = useState({});
-  const [playerIds, setPlayerIds] = useState({ idR: null, idM: null });
+
   const [board, setBoard] = useState(Array(9).fill(""));
   const [currentPlayer, setCurrentPlayer] = useState(
     Math.random() < 0.5 ? "R" : "M"
@@ -31,51 +36,45 @@ const Play = () => {
   const isInMobile = useIsInMobile();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const players = localStorage.getItem("players");
-    if (players) {
-      const storedPlayers = JSON.parse(players);
-      setPlayerIds({ idR: storedPlayers?.R, idM: storedPlayers?.M });
-      setPlayersInLocal(storedPlayers);
-    }
-  }, []);
-
-  const { idR, idM } = playerIds;
-
-  console.log("IDS", playerIds);
-
+  const idR = playersInLocal?.R?._id;
+  const idM = playersInLocal?.M?._id;
   const {
     data: playerRData,
     isLoading: isLoadingInGetPlayerR,
     isError: isErrorInGetPlayerR,
-  } = useApiGet(["playerR", idR], () => getById(idR), { enabled: !!idR });
+  } = useApiGet(["playerR", idR], () => getById(idR), {
+    enabled: !!idR,
+  });
   const {
     data: playerMData,
     isLoading: isLoadingInGetPlayerM,
     isError: isErrorInGetPlayerM,
   } = useApiGet(["playerM", idM], () => getById(idM), { enabled: !!idM });
 
-  const sendAddGameReq = () => {
+  const playerR = { ...playerRData?.data, name: playersInLocal?.R?.name };
+  const playerM = { ...playerMData?.data, name: playersInLocal?.M?.name };
+
+  const sendAddGameReq = async () => {
     const isDraw = winPlayer === "none";
     const winner =
       winPlayer === "none"
         ? null
         : winPlayer === "R"
-        ? playerRData?.data?._id
-        : playerMData?.data?._id;
+        ? playerR?._id
+        : playerM?._id;
     const loser =
       winPlayer === "none"
         ? null
         : winPlayer === "R"
-        ? playerMData?.data?._id
-        : playerRData?.data?._id;
+        ? playerM?._id
+        : playerR?._id;
 
     const payload = {
-      playerR: playerRData?.data?._id,
-      playerM: playerMData?.data?._id,
+      playerR: playerR?._id,
+      playerM: playerM?._id,
       displayNames: {
-        R: playersInLocal?.gameName?.R || playerRData?.data?.username,
-        M: playersInLocal?.gameName?.M || playerMData?.data?.username,
+        R: playerR?.name || playerR?.username,
+        M: playerM?.name || playerM?.username,
       },
       board: board,
       winner: winner,
@@ -83,9 +82,13 @@ const Play = () => {
       isDraw: isDraw,
     };
 
-    console.log(payload);
-    const res = sendAddGame(payload);
-    console.log("AFTER ADDING", res);
+    console.log("Sending game payload", payload);
+    try {
+      const res = await sendAddGame(payload);
+      console.log("Response from add game:", res);
+    } catch (error) {
+      console.error("Failed to add game:", error);
+    }
   };
   const handleCellClick = (index) => {
     if (board[index] !== "") return;
@@ -110,12 +113,8 @@ const Play = () => {
 
   const text = {
     none: `Draw`,
-    R: `Winner is R (${
-      playersInLocal?.gameName?.R || playerRData?.data?.username
-    })`,
-    M: `Winner is M (${
-      playersInLocal?.gameName?.M || playerMData?.data?.username
-    })`,
+    R: `Winner is R (${playerR?.name || playerR?.username})`,
+    M: `Winner is M (${playerM?.name || playerM?.username})`,
   };
 
   // handlers
@@ -138,6 +137,14 @@ const Play = () => {
     localStorage.removeItem("players");
     navigate("/");
   };
+
+  if (isLoadingInGetPlayerM || isLoadingInGetPlayerR) {
+    return <LoadingPage />;
+  }
+  if (isErrorInGetPlayerM || isErrorInGetPlayerR) {
+    return <ErrorPage />;
+  }
+
   return (
     <Box
       pt="80px"
@@ -159,7 +166,7 @@ const Play = () => {
         >
           {!isInMobile && (
             <Box flex={1}>
-              <Player player={playerRData?.data} />
+              <Player player={playerR} />
             </Box>
           )}
           <Box flex={1}>
@@ -173,18 +180,13 @@ const Play = () => {
           </Box>
           {!isInMobile && (
             <Box flex={1}>
-              <Player player={playerMData?.data} />
+              <Player player={playerM} />
             </Box>
           )}
         </Stack>
 
         {ended && <GameEndActions onExit={onExit} onContinue={onContinue} />}
-        {isInMobile && (
-          <PlayersInMobile
-            playerR={playerRData?.data}
-            playerM={playerRData?.data}
-          />
-        )}
+        {isInMobile && <PlayersInMobile playerR={playerR} playerM={playerM} />}
       </Stack>
     </Box>
   );

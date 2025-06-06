@@ -42,16 +42,15 @@ const useAuthActions = ({ handleCloseDialog }) => {
         //     payload: res?.data?.players,
         //   });
 
+        const playerData = res?.data?.players;
         const players = {
-          R: res?.data?.players?.playerR?._id,
-          M: res?.data?.players?.playerM._id,
-          gameName: {
-            R:
-              res?.data?.players?.playerR.name ||
-              res?.data?.players?.playerR.username,
-            M:
-              res?.data?.players?.playerM.name ||
-              res?.data?.players?.playerM.username,
+          R: {
+            _id: playerData?.playerR?._id,
+            gameName: playerData?.playerR.name || playerData?.playerR.username,
+          },
+          M: {
+            _id: playerData?.playerM?._id,
+            gameName: playerData?.playerM.name || playerData?.playerM.username,
           },
         };
         localStorage.setItem("players", JSON.stringify(players));
