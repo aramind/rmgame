@@ -70,9 +70,8 @@ const GameHistory = () => {
   if (isLoadingInGetGames) {
     return <LoadingPage />;
   }
-
   return (
-    <Box width={1} marginX="center">
+    <Box width={1} marginX="auto">
       <Box marginX="auto" width={{ xs: "90vw", md: "80vw" }}>
         <Box mb={2}>
           <Typography variant={isInMobile ? "h5" : "h4"} textAlign="center">

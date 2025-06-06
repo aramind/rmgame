@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "./layout/MainLayout";
 import Landing from "./pages/landing/Landing";
 import Play from "./pages/play/Play";
+
 import History from "./pages/history/History";
 
 const router = createBrowserRouter([
