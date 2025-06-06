@@ -9,7 +9,7 @@ import { grey } from "@mui/material/colors";
 const Label = ({ label }) => (
   <Typography
     fontWeight="bold"
-    fontSize="1.2rem"
+    fontSize={{ xs: "0.7rem", md: "1.2rem" }}
     textAlign="center"
     color="primary"
   >
@@ -17,6 +17,7 @@ const Label = ({ label }) => (
   </Typography>
 );
 const LeaderBoard = () => {
+  const isInMobile = useIsInMobile();
   const { getTopWinRatePlayers } = usePlayerReq();
 
   const {
@@ -52,8 +53,12 @@ const LeaderBoard = () => {
         <GameDetail flex="1" detail={<Label label="WIN RATE (%)" />} />
         <GameDetail flex="1" detail={<Label label="TOTAL GAMES" />} />
         <GameDetail flex="1" detail={<Label label="WINS" />} />
-        <GameDetail flex="1" detail={<Label label="LOSSES" />} />
-        <GameDetail flex="1" detail={<Label label="DRAWS" />} />
+        {!isInMobile && (
+          <>
+            <GameDetail flex="1" detail={<Label label="LOSSES" />} />
+            <GameDetail flex="1" detail={<Label label="DRAWS" />} />
+          </>
+        )}
       </Stack>
       {topPlayers &&
         topPlayers.map((player, index) => (
@@ -86,8 +91,12 @@ const LeaderBoard = () => {
             <GameDetail flex="1" detail={`${player?.winRatio * 100}%`} />
             <GameDetail flex="1" detail={player?.totalGames} />
             <GameDetail flex="1" detail={player?.wins} />
-            <GameDetail flex="1" detail={player?.losses} />
-            <GameDetail flex="1" detail={player?.draws} />
+            {!isInMobile && (
+              <>
+                <GameDetail flex="1" detail={player?.losses} />
+                <GameDetail flex="1" detail={player?.draws} />
+              </>
+            )}
           </Stack>
         ))}
     </Box>
