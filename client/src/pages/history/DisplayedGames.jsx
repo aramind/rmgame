@@ -6,6 +6,18 @@ import { formatToMMDDYYYY } from "../../utils/date";
 import useIsInMobile from "../../hooks/useIsInMobile";
 import { InfoIcon } from "../../utils/muiIcons";
 
+const PlayerInfo = ({ player, withName = true }) => (
+  <Stack direction="row" alignItems="center" gap={1}>
+    {withName && <Typography>{player?.username}</Typography>}
+    <Box className="centered">
+      <Avatar
+        src={player?.profileImage}
+        alt={player?.username}
+        sx={{ width: 20, height: 20 }}
+      />
+    </Box>
+  </Stack>
+);
 const DisplayedGames = ({
   displayedGames,
   startIndex,
@@ -51,35 +63,9 @@ const DisplayedGames = ({
               </Stack>
             ) : (
               <>
-                <GameDetail
-                  detail={
-                    <Stack direction="row" alignItems="center" gap={1}>
-                      <Typography>{game?.playerR?.username}</Typography>
-                      <Box className="centered">
-                        <Avatar
-                          src={game?.playerR?.profileImage}
-                          alt={game?.playerR?.username}
-                          sx={{ width: 20, height: 20 }}
-                        />
-                      </Box>
-                    </Stack>
-                  }
-                />
+                <GameDetail detail={<PlayerInfo player={game?.playerR} />} />
                 {/* player M */}
-                <GameDetail
-                  detail={
-                    <Stack direction="row" alignItems="center" gap={1}>
-                      <Typography>{game?.playerM?.username}</Typography>
-                      <Box className="centered">
-                        <Avatar
-                          src={game?.playerM?.profileImage}
-                          alt={game?.playerM?.username}
-                          sx={{ width: 20, height: 20 }}
-                        />
-                      </Box>
-                    </Stack>
-                  }
-                />
+                <GameDetail detail={<PlayerInfo player={game?.playerM} />} />
               </>
             )}
 
