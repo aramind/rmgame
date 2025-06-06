@@ -10,18 +10,21 @@ import PlayersInMobile from "./PlayersInMobile";
 import { useNavigate } from "react-router-dom";
 import GameEndActions from "./GameEndActions";
 import GameStatus from "./GameStatus";
+import useGameActions from "../../hooks/api/game/useGameActions";
 
 const Play = () => {
   const {
     globalState: { players },
     dispatch,
   } = useGlobalState();
+  const { sendAddGame } = useGameActions({ handleCloseDialog: {} });
+  // states
   const [board, setBoard] = useState(Array(9).fill(""));
   const [currentPlayer, setCurrentPlayer] = useState(
     Math.random() < 0.5 ? "R" : "M"
   );
   const [winningLine, setWinningLine] = useState([]);
-  const [winner, setWinner] = useState("");
+  const [winPlayer, setWinPlayer] = useState("");
   const [ended, setEnded] = useState(false);
   const isInMobile = useIsInMobile();
   const navigate = useNavigate();
@@ -36,6 +39,38 @@ const Play = () => {
     }
   }, [dispatch]);
 
+  const sendAddGameReq = () => {
+    const isDraw = winPlayer === "none";
+    const winner =
+      winPlayer === "none"
+        ? null
+        : winPlayer === "R"
+        ? players?.playerR?._id
+        : players?.playerM?._id;
+    const loser =
+      winPlayer === "none"
+        ? null
+        : winPlayer === "R"
+        ? players?.playerM?._id
+        : players?.playerR?._id;
+
+    const payload = {
+      playerR: players?.playerR?._id,
+      playerM: players?.playerM?._id,
+      displayNames: {
+        R: players?.playerR?.name || players?.playerR?.username,
+        M: players?.playerM?.name || players?.playerM?.username,
+      },
+      board: board,
+      winner: winner,
+      loser: loser,
+      isDraw: isDraw,
+    };
+
+    console.log(payload);
+    const res = sendAddGame(payload);
+    console.log("AFTER ADDING", res);
+  };
   const handleCellClick = (index) => {
     if (board[index] !== "") return;
     const newBoard = [...board];
@@ -47,10 +82,10 @@ const Play = () => {
     }
     if (result?.winner) {
       setWinningLine(result?.winningLine);
-      setWinner(result?.winner);
+      setWinPlayer(result?.winner);
     } else if (newBoard.every((cell) => cell !== "")) {
       setWinningLine([]);
-      setWinner("none");
+      setWinPlayer("none");
     } else {
       setCurrentPlayer(currentPlayer === "R" ? "M" : "R");
       setWinningLine([]);
@@ -64,21 +99,22 @@ const Play = () => {
   };
 
   // handlers
-
   const onContinue = () => {
+    sendAddGameReq();
     setBoard(Array(9).fill(""));
-    if (!winner || winner === "none") {
+    if (!winPlayer || winPlayer === "none") {
       const random = Math.random() < 0.5 ? "R" : "M";
       setCurrentPlayer(random);
     } else {
-      setCurrentPlayer(winner === "R" ? "M" : "R");
+      setCurrentPlayer(winPlayer === "R" ? "M" : "R");
     }
     setWinningLine([]);
-    setWinner("");
+    setWinPlayer("");
     setEnded(false);
   };
 
   const onExit = () => {
+    sendAddGameReq();
     localStorage.removeItem("players");
     navigate("/");
   };
@@ -91,7 +127,9 @@ const Play = () => {
     >
       <NavBar />
       <Stack mt={4} height={1} className="centered">
-        <GameStatus text={text[winner] || `Current Turn: ${currentPlayer}`} />
+        <GameStatus
+          text={text[winPlayer] || `Current Turn: ${currentPlayer}`}
+        />
         <Stack
           direction={{ xs: "column", md: "row" }}
           gap={2}
