@@ -2,7 +2,6 @@ import { Avatar, Box, Stack, Typography } from "@mui/material";
 import React from "react";
 
 const Player = ({ player }) => {
-  console.log(player);
   return (
     <Stack width={1} p={2}>
       <Box className="centered">

@@ -32,11 +32,9 @@ const Play = () => {
 
   const handleCellClick = (index) => {
     if (board[index] !== "") return;
-
     const newBoard = [...board];
     newBoard[index] = currentPlayer;
     setBoard(newBoard);
-
     const result = checkWinner(newBoard);
     if (newBoard.every((cell) => cell !== "") || result?.winner) {
       setEnded(true);
@@ -48,15 +46,19 @@ const Play = () => {
     } else if (newBoard.every((cell) => cell !== "")) {
       // alert("It's a draw!");
       setWinningLine([]);
-      setWinner(result?.winner);
+      setWinner("none");
     } else {
       setCurrentPlayer(currentPlayer === "R" ? "M" : "R");
       setWinningLine([]);
     }
   };
 
-  console.log(players);
-
+  const text = {
+    none: `Draw`,
+    R: `Winner is R (${players?.playerR?.name})`,
+    M: `Winner is M (${players?.playerM?.name})`,
+  };
+  console.log("WINNER", winner);
   return (
     <Box
       pt="80px"
@@ -67,7 +69,7 @@ const Play = () => {
       <NavBar />
       <Box mt={4} textAlign="center" height={1}>
         <Typography variant="h5" gutterBottom>
-          Current Player: {currentPlayer}
+          {text[winner] || `Current Turn: ${currentPlayer}`}
         </Typography>
         <Stack
           direction={{ xs: "column", md: "row" }}
@@ -98,7 +100,6 @@ const Play = () => {
           )}
           {isInMobile && <PlayersInMobile players={players} />}
         </Stack>
-        {winner && <Typography>winner is {winner}</Typography>}
       </Box>
     </Box>
   );
