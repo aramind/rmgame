@@ -1,8 +1,11 @@
 import { Avatar, Box, Button, Stack, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import AddPlayersDialog from "../../components/AddPlayersDialog";
+import useAuthActions from "../../hooks/api/auth/useAuthActions";
+import LoadingPage from "../LoadingPage";
 
 const Player = ({ player }) => {
-  console.log(player?.name);
   return (
     <Stack width={1} p={2} gap={1} height={1} className="centered">
       <Box className="centered">
@@ -16,7 +19,7 @@ const Player = ({ player }) => {
         {(player?.name || player?.username)?.toUpperCase()}
       </Typography>
       <Stack>
-        {player?.name ? (
+        {player?._id ? (
           <Typography>
             W/L/D : {player?.stats?.wins}/{player?.stats?.losses}/
             {player?.stats?.draws}
@@ -24,9 +27,6 @@ const Player = ({ player }) => {
         ) : (
           <Stack gap={1}>
             <Typography textAlign="center">Anon games vanish.</Typography>
-            <Box className="centered">
-              <Button variant="outlined">Login</Button>
-            </Box>
           </Stack>
         )}
       </Stack>

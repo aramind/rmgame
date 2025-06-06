@@ -16,6 +16,7 @@ import ErrorPage from "../ErrorPage";
 import LoadingPage from "../LoadingPage";
 import prepareGamePayload from "../../utils/prepareGamePayload";
 import updateGameBoard from "../../utils/updateGameBoard";
+import Invitation from "./Invitation";
 
 const Play = () => {
   const { sendAddGame } = useGameActions({ handleCloseDialog: {} });
@@ -85,8 +86,8 @@ const Play = () => {
 
   const text = {
     none: `Draw`,
-    R: `Winner is R (${playerR?.name || playerR?.username})`,
-    M: `Winner is M (${playerM?.name || playerM?.username})`,
+    R: `${playerR?.name || playerR?.username || "R"} wins!`,
+    M: `${playerM?.name || playerM?.username || "M"} wins!`,
   };
 
   // handlers
@@ -157,7 +158,10 @@ const Play = () => {
           )}
         </Stack>
 
-        {ended && <GameEndActions onExit={onExit} onContinue={onContinue} />}
+        {ended && playersInLocal && (
+          <GameEndActions onExit={onExit} onContinue={onContinue} />
+        )}
+        {!playersInLocal && <Invitation />}
         {isInMobile && <PlayersInMobile playerR={playerR} playerM={playerM} />}
       </Stack>
     </Box>
