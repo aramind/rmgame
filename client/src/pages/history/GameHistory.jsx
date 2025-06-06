@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Box, Button, Stack, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
 import useApiGet from "../../hooks/api/useApiGet";
 import useGameReq from "../../hooks/api/game/useGameReq";
 import { formatToMMDDYYYY } from "../../utils/date";
 import SmallBoard from "./SmallBoard";
 import formatBoard from "../../utils/formatBoard";
+import useIsInMobile from "../../hooks/useIsInMobile";
 
 import GameDetail from "./GameDetail";
 import { grey } from "@mui/material/colors";
+import { InfoIcon, InfoOutlined } from "../../utils/muiIcons";
 
 const GameHistory = () => {
+  const isInMobile = useIsInMobile();
   const [limit, setLimit] = useState("50");
   const [page, setPage] = useState("1");
   const [games, setGames] = useState([]);
@@ -62,35 +72,57 @@ const GameHistory = () => {
             {/* date */}
             <GameDetail detail={formatToMMDDYYYY(game?.createdAt)} />
             {/* player R */}
-            <GameDetail
-              detail={
-                <Stack direction="row" alignItems="center" gap={1}>
-                  <Typography>{game?.playerR?.username}</Typography>
-                  <Box className="centered">
-                    <Avatar
-                      src={game?.playerR?.profileImage}
-                      alt={game?.playerR?.username}
-                      sx={{ width: 20, height: 20 }}
-                    />
-                  </Box>
-                </Stack>
-              }
-            />
-            {/* player M */}
-            <GameDetail
-              detail={
-                <Stack direction="row" alignItems="center" gap={1}>
-                  <Typography>{game?.playerM?.username}</Typography>
-                  <Box className="centered">
-                    <Avatar
-                      src={game?.playerM?.profileImage}
-                      alt={game?.playerM?.username}
-                      sx={{ width: 20, height: 20 }}
-                    />
-                  </Box>
-                </Stack>
-              }
-            />
+            {isInMobile ? (
+              <Stack>
+                <GameDetail
+                  detail={
+                    <Typography fontSize="0.8rem">
+                      {game?.playerR?.username}
+                    </Typography>
+                  }
+                />
+                {/* player M */}
+                <GameDetail
+                  detail={
+                    <Typography fontSize="0.8rem">
+                      {game?.playerM?.username}
+                    </Typography>
+                  }
+                />
+              </Stack>
+            ) : (
+              <>
+                <GameDetail
+                  detail={
+                    <Stack direction="row" alignItems="center" gap={1}>
+                      <Typography>{game?.playerR?.username}</Typography>
+                      <Box className="centered">
+                        <Avatar
+                          src={game?.playerR?.profileImage}
+                          alt={game?.playerR?.username}
+                          sx={{ width: 20, height: 20 }}
+                        />
+                      </Box>
+                    </Stack>
+                  }
+                />
+                {/* player M */}
+                <GameDetail
+                  detail={
+                    <Stack direction="row" alignItems="center" gap={1}>
+                      <Typography>{game?.playerM?.username}</Typography>
+                      <Box className="centered">
+                        <Avatar
+                          src={game?.playerM?.profileImage}
+                          alt={game?.playerM?.username}
+                          sx={{ width: 20, height: 20 }}
+                        />
+                      </Box>
+                    </Stack>
+                  }
+                />
+              </>
+            )}
 
             {/* winner */}
             <GameDetail
@@ -98,7 +130,7 @@ const GameHistory = () => {
                 game?.isDraw ? (
                   <Typography>DRAW</Typography>
                 ) : (
-                  <Stack direction="row" alignItems="center" gap={1}>
+                  <Stack direction="column" alignItems="center" gap={1}>
                     <Box className="centered">
                       <Avatar
                         src={game?.winner?.profileImage}
@@ -106,13 +138,18 @@ const GameHistory = () => {
                         sx={{ width: 20, height: 20 }}
                       />
                     </Box>
+                    {isInMobile && (
+                      <Typography fontSize="0.8rem">
+                        {game?.winner?.username}
+                      </Typography>
+                    )}
                   </Stack>
                 )
               }
             />
-            <Box flex={1}>
-              <Button variant="outlined">DETAILS</Button>
-            </Box>
+            <IconButton aria-label="delete">
+              <InfoIcon color="secondary" />
+            </IconButton>
           </Stack>
         ))}
       </Box>
