@@ -13,6 +13,12 @@ const usePlayerReq = () => {
         method: "GET",
       });
     },
+    getTopWinRatePlayers: async () => {
+      return request({
+        url: `${url}/topwins`,
+        method: "GET",
+      });
+    },
   };
 
   return req;
