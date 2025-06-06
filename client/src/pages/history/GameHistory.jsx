@@ -10,16 +10,15 @@ import {
 import useApiGet from "../../hooks/api/useApiGet";
 import useGameReq from "../../hooks/api/game/useGameReq";
 import { formatToMMDDYYYY } from "../../utils/date";
-import SmallBoard from "./SmallBoard";
-import formatBoard from "../../utils/formatBoard";
 import useIsInMobile from "../../hooks/useIsInMobile";
 import LoadingPage from "../../pages/LoadingPage";
 import GameDetail from "./GameDetail";
 import { grey } from "@mui/material/colors";
-import { InfoIcon, InfoOutlined } from "../../utils/muiIcons";
+import { InfoIcon } from "../../utils/muiIcons";
 import Pagination from "./Pagination";
 import GameDetailModal from "./GameDetailModal";
 import GameHistoryHeader from "./GameHistoryHeader";
+import ErrorPage from "../../pages/ErrorPage";
 
 const GameHistory = () => {
   const isInMobile = useIsInMobile();
@@ -69,6 +68,10 @@ const GameHistory = () => {
 
   if (isLoadingInGetGames) {
     return <LoadingPage />;
+  }
+
+  if (isErrorInGetGames) {
+    return <ErrorPage />;
   }
   return (
     <Box width={1} marginX="auto">
