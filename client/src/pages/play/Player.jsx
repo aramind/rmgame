@@ -3,7 +3,7 @@ import React from "react";
 
 const Player = ({ player }) => {
   return (
-    <Stack width={1} p={2}>
+    <Stack width={1} p={2} gap={1} height={1} className="centered">
       <Box className="centered">
         <Avatar
           src={player?.profileImage}
@@ -11,13 +11,13 @@ const Player = ({ player }) => {
           sx={{ width: 50, height: 50 }}
         />
       </Box>
-      <Typography>{player?.name}</Typography>
-
-      <Typography>{player?.username}</Typography>
-
+      <Typography>
+        {(player?.name || player?.username).toUpperCase()}
+      </Typography>
       <Stack>
         <Typography>
-          {player?.stats?.wins}/{player?.stats?.losses}/{player?.stats?.draws}
+          W/L/D : {player?.stats?.wins}/{player?.stats?.losses}/
+          {player?.stats?.draws}
         </Typography>
       </Stack>
     </Stack>
