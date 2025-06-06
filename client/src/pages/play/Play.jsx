@@ -6,10 +6,11 @@ import Board from "./Board";
 import checkWinner from "../../utils/checkWinner";
 
 const Play = () => {
-  const isInMobile = useIsInMobile();
-
   const [board, setBoard] = useState(Array(9).fill(""));
   const [currentPlayer, setCurrentPlayer] = useState("R");
+  const [winningLine, setWinningLine] = useState([]);
+  const [winner, setWinner] = useState("");
+  const [ended, setEnded] = useState(false);
 
   const handleCellClick = (index) => {
     if (board[index] !== "") return;
@@ -18,26 +19,40 @@ const Play = () => {
     newBoard[index] = currentPlayer;
     setBoard(newBoard);
 
-    const winner = checkWinner(newBoard);
-    if (winner) {
-      alert(`${winner} wins!`);
+    const result = checkWinner(newBoard);
+    if (newBoard.every((cell) => cell !== "") || result?.winner) {
+      setEnded(true);
+    }
+    if (result?.winner) {
+      setWinningLine(result?.winningLine);
+      setWinner(result?.winner);
+      // alert(`${result?.winner} wins!`);
     } else if (newBoard.every((cell) => cell !== "")) {
-      alert("It's a draw!");
+      // alert("It's a draw!");
+      setWinningLine([]);
+      setWinner(result?.winner);
     } else {
       setCurrentPlayer(currentPlayer === "R" ? "M" : "R");
+      setWinningLine([]);
     }
   };
 
   return (
-    <Box mt={4} textAlign="center">
-      <Typography variant="h5" gutterBottom>
-        Current Player: {currentPlayer}
-      </Typography>
-      <Board
-        board={board}
-        onCellClick={handleCellClick}
-        currentPlayer={currentPlayer}
-      />
+    <Box pt="80px">
+      <NavBar />
+      <Box mt={4} textAlign="center">
+        <Typography variant="h5" gutterBottom>
+          Current Player: {currentPlayer}
+        </Typography>
+        <Board
+          board={board}
+          onCellClick={handleCellClick}
+          currentPlayer={currentPlayer}
+          winningLine={winningLine}
+          disabled={ended}
+        />
+        {winner && <Typography>winner is {winner}</Typography>}
+      </Box>
     </Box>
   );
 };

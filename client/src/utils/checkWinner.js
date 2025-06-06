@@ -11,7 +11,7 @@ const checkWinner = (board) => {
   ];
   for (let [a, b, c] of lines) {
     if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-      return board[a];
+      return { winner: board[a], winningLine: [a, b, c] };
     }
   }
   return null;

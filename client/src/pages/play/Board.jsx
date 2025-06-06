@@ -1,18 +1,23 @@
 import React from "react";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import useIsInMobile from "../../hooks/useIsInMobile";
 
-const Board = ({ board, onCellClick, disabled = false, currentPlayer }) => {
+const Board = ({
+  board,
+  onCellClick,
+  disabled = false,
+  currentPlayer,
+  winningLine,
+}) => {
   const isInMobile = useIsInMobile();
 
-  const symbolFontSize = isInMobile ? "3rem" : "4rem";
+  const symbolFontSize = isInMobile ? "2.5rem" : "4rem";
   return (
     <Box
       sx={{
         display: "grid",
         gridTemplateColumns: "repeat(3, 1fr)",
-
-        width: isInMobile ? 300 : 500,
+        width: isInMobile ? 250 : 350,
         margin: "auto",
       }}
       // className="outlined"
@@ -21,6 +26,7 @@ const Board = ({ board, onCellClick, disabled = false, currentPlayer }) => {
         const row = Math.floor(index / 3);
         const col = index % 3;
         const isEmpty = value === "";
+        const isWinningCell = winningLine.includes(index);
         return (
           // <Box
           //   key={index}
@@ -60,9 +66,13 @@ const Board = ({ board, onCellClick, disabled = false, currentPlayer }) => {
               borderLeft: col === 0 ? "none" : "1px solid #ccc",
               position: "relative",
               cursor: isEmpty && !disabled ? "pointer" : "default",
+              // pointerEvents: disabled ? "none" : "auto",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              backgroundColor: isWinningCell
+                ? "rgba(25, 118, 210, 0.15)"
+                : "transparent",
               "&:hover .hover-preview": {
                 opacity: 0.1,
               },
