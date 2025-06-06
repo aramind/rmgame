@@ -1,9 +1,8 @@
 import { Box, Stack } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import NavBar from "../../components/navbar/NavBar";
 import useIsInMobile from "../../hooks/useIsInMobile";
 import Board from "./Board";
-import checkWinner from "../../utils/checkWinner";
 import Player from "./Player";
 import PlayersInMobile from "./PlayersInMobile";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +14,8 @@ import usePlayerReq from "../../hooks/api/player/usePlayerReq";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import ErrorPage from "../ErrorPage";
 import LoadingPage from "../LoadingPage";
+import prepareGamePayload from "../../utils/prepareGamePayload";
+import updateGameBoard from "../../utils/updateGameBoard";
 
 const Play = () => {
   const { sendAddGame } = useGameActions({ handleCloseDialog: {} });
@@ -55,59 +56,30 @@ const Play = () => {
   const playerM = { ...playerMData?.data, name: playersInLocal?.M?.name };
 
   const sendAddGameReq = async () => {
-    const isDraw = winPlayer === "none";
-    const winner =
-      winPlayer === "none"
-        ? null
-        : winPlayer === "R"
-        ? playerR?._id
-        : playerM?._id;
-    const loser =
-      winPlayer === "none"
-        ? null
-        : winPlayer === "R"
-        ? playerM?._id
-        : playerR?._id;
+    const payload = prepareGamePayload({
+      winPlayer,
+      board,
+      playerR,
+      playerM,
+    });
 
-    const payload = {
-      playerR: playerR?._id,
-      playerM: playerM?._id,
-      displayNames: {
-        R: playerR?.name || playerR?.username,
-        M: playerM?.name || playerM?.username,
-      },
-      board: board,
-      winner: winner,
-      loser: loser,
-      isDraw: isDraw,
-    };
-
-    console.log("Sending game payload", payload);
     try {
       const res = await sendAddGame(payload);
-      console.log("Response from add game:", res);
+      return res;
     } catch (error) {
       console.error("Failed to add game:", error);
     }
   };
   const handleCellClick = (index) => {
-    if (board[index] !== "") return;
-    const newBoard = [...board];
-    newBoard[index] = currentPlayer;
-    setBoard(newBoard);
-    const result = checkWinner(newBoard);
-    if (newBoard.every((cell) => cell !== "") || result?.winner) {
-      setEnded(true);
-    }
-    if (result?.winner) {
-      setWinningLine(result?.winningLine);
-      setWinPlayer(result?.winner);
-    } else if (newBoard.every((cell) => cell !== "")) {
-      setWinningLine([]);
-      setWinPlayer("none");
-    } else {
-      setCurrentPlayer(currentPlayer === "R" ? "M" : "R");
-      setWinningLine([]);
+    const result = updateGameBoard({ index, board, currentPlayer });
+    if (!result) return;
+
+    setBoard(result.board);
+    setWinningLine(result.winningLine);
+    setWinPlayer(result.winPlayer);
+    setEnded(result.ended);
+    if (!result.ended) {
+      setCurrentPlayer(result.nextPlayer);
     }
   };
 

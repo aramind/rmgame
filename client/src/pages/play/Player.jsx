@@ -1,7 +1,8 @@
-import { Avatar, Box, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Button, Stack, Typography } from "@mui/material";
 import React from "react";
 
 const Player = ({ player }) => {
+  console.log(player?.name);
   return (
     <Stack width={1} p={2} gap={1} height={1} className="centered">
       <Box className="centered">
@@ -15,10 +16,19 @@ const Player = ({ player }) => {
         {(player?.name || player?.username)?.toUpperCase()}
       </Typography>
       <Stack>
-        <Typography>
-          W/L/D : {player?.stats?.wins}/{player?.stats?.losses}/
-          {player?.stats?.draws}
-        </Typography>
+        {player?.name ? (
+          <Typography>
+            W/L/D : {player?.stats?.wins}/{player?.stats?.losses}/
+            {player?.stats?.draws}
+          </Typography>
+        ) : (
+          <Stack gap={1}>
+            <Typography textAlign="center">Anon games vanish.</Typography>
+            <Box className="centered">
+              <Button variant="outlined">Login</Button>
+            </Box>
+          </Stack>
+        )}
       </Stack>
     </Stack>
   );
