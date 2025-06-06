@@ -31,9 +31,17 @@ app.use([
 ]);
 
 // rendering the static file for the client
-app.use(express.static(path.join(__dirname, "../client/build")));
+// app.use(express.static(path.join(__dirname, "../client/build")));
+// app.get(/^\/(?!v1\/).*/, (req, res) => {
+//   res.sendFile(path.join(__dirname, "../client/build/index.html"));
+// });
 
 // base routes
+
+// for the static site
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "../client/build/index.html"));
+// });
 
 app.use("/v1/auth", authRouter);
 app.use("/v1/players", playerRouter);
@@ -41,10 +49,9 @@ app.use("/v1/games", gameRouter);
 // authenticated routes
 
 // for the static site
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
-});
-
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "../client/build/index.html"));
+// });
 // if not found
 app.use((req, res) =>
   res.status(404).json({ success: false, message: "Not found" })
