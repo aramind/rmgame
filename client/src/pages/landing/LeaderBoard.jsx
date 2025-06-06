@@ -3,21 +3,12 @@ import { Avatar, Box, Stack, Typography } from "@mui/material";
 import useIsInMobile from "../../hooks/useIsInMobile";
 import usePlayerReq from "../../hooks/api/player/usePlayerReq";
 import useApiGet from "../../hooks/api/useApiGet";
-import GameDetail from "../history/GameDetail";
 import { grey } from "@mui/material/colors";
 import LoadingPage from "../LoadingPage";
 import ErrorPage from "../ErrorPage";
+import TableCellContainer from "./TableCellContainer";
+import TableLabel from "../../components/TableLabel";
 
-const Label = ({ label }) => (
-  <Typography
-    fontWeight="bold"
-    fontSize={{ xs: "0.7rem", md: "1.2rem" }}
-    textAlign="center"
-    color="primary"
-  >
-    {label.toUpperCase()}
-  </Typography>
-);
 const LeaderBoard = () => {
   const isInMobile = useIsInMobile();
   const { getTopWinRatePlayers } = usePlayerReq();
@@ -54,18 +45,16 @@ const LeaderBoard = () => {
         py={1.5}
       >
         {/* using the Game Detail comp temporarily */}
-        {/* index */}
-        <GameDetail flex="0.5" detail={<Label label="RANK" />} />
-        <GameDetail detail={<Label label="AVATAR" />} />
-        {/* username */}
-        <GameDetail flex="1" detail={<Label label="USERNAME" />} />
-        <GameDetail flex="1" detail={<Label label="WIN RATE (%)" />} />
-        <GameDetail flex="1" detail={<Label label="TOTAL GAMES" />} />
-        <GameDetail flex="1" detail={<Label label="WINS" />} />
+        <TableCellContainer flex="0.5" detail={<TableLabel label="RANK" />} />
+        <TableCellContainer detail={<TableLabel label="AVATAR" />} />
+        <TableCellContainer detail={<TableLabel label="USERNAME" />} />
+        <TableCellContainer detail={<TableLabel label="WIN RATE (%)" />} />
+        <TableCellContainer detail={<TableLabel label="TOTAL GAMES" />} />
+        <TableCellContainer detail={<TableLabel label="WINS" />} />
         {!isInMobile && (
           <>
-            <GameDetail flex="1" detail={<Label label="LOSSES" />} />
-            <GameDetail flex="1" detail={<Label label="DRAWS" />} />
+            <TableCellContainer detail={<TableLabel label="LOSSES" />} />
+            <TableCellContainer detail={<TableLabel label="DRAWS" />} />
           </>
         )}
       </Stack>
@@ -83,8 +72,8 @@ const LeaderBoard = () => {
           >
             {/* using the Game Detail comp temporarily */}
             {/* index */}
-            <GameDetail flex="0.5" detail={index + 1} />
-            <GameDetail
+            <TableCellContainer flex="0.5" detail={index + 1} />
+            <TableCellContainer
               detail={
                 <Box className="centered">
                   <Avatar
@@ -96,17 +85,17 @@ const LeaderBoard = () => {
               }
             />
             {/* username */}
-            <GameDetail flex="1" detail={player?.username} />
-            <GameDetail
+            <TableCellContainer detail={player?.username} />
+            <TableCellContainer
               flex="1"
               detail={`${(player?.winRatio * 100).toFixed(2)}%`}
             />
-            <GameDetail flex="1" detail={player?.totalGames} />
-            <GameDetail flex="1" detail={player?.wins} />
+            <TableCellContainer detail={player?.totalGames} />
+            <TableCellContainer detail={player?.wins} />
             {!isInMobile && (
               <>
-                <GameDetail flex="1" detail={player?.losses} />
-                <GameDetail flex="1" detail={player?.draws} />
+                <TableCellContainer detail={player?.losses} />
+                <TableCellContainer detail={player?.draws} />
               </>
             )}
           </Stack>
