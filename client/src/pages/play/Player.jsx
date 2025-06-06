@@ -1,9 +1,4 @@
-import { Avatar, Box, Button, Stack, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import AddPlayersDialog from "../../components/AddPlayersDialog";
-import useAuthActions from "../../hooks/api/auth/useAuthActions";
-import LoadingPage from "../LoadingPage";
+import { Avatar, Box, Stack, Typography } from "@mui/material";
 
 const Player = ({ player }) => {
   return (
