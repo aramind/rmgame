@@ -5,7 +5,7 @@ import LeaderBoard from "./LeaderBoard";
 
 const Landing = () => {
   return (
-    <Stack>
+    <Stack mb={4}>
       <HeroSection />
       <LeaderBoard />
     </Stack>
