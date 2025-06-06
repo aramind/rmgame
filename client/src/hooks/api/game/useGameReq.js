@@ -14,6 +14,12 @@ const useGameReq = () => {
         data,
       });
     },
+    get: async (filter) => {
+      return request({
+        url: `${url}${filter || ""}`,
+        method: "GET",
+      });
+    },
   };
 
   return req;
