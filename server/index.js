@@ -41,9 +41,9 @@ app.use("/v1/games", gameRouter);
 // authenticated routes
 
 // for the static site
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "../client/build/index.html"));
-// });
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+});
 
 // if not found
 app.use((req, res) =>
