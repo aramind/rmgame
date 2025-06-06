@@ -35,8 +35,9 @@ const PlayerBox = ({ fieldPrefix }) => {
     >
       <Box width={1} mb={2}>
         <Typography
-          color={grey[800]}
-          textAlign="center"
+          // color={grey[800]}
+          sx={localStyles.title}
+          color="primary.dark"
         >{`PLAYER ${fieldPrefix.slice(-1)}`}</Typography>
       </Box>
       <ControlledTextField name={`${fieldPrefix}name`} label="In Game Name" />
@@ -76,3 +77,12 @@ const PlayerBox = ({ fieldPrefix }) => {
 };
 
 export default PlayerBox;
+
+const localStyles = {
+  title: {
+    fontFamily: (theme) => theme.typography.poppins,
+    fontWeight: "bold",
+    textAlign: "center",
+    fontSize: { xs: "1.2rem", md: "1.5rem" },
+  },
+};

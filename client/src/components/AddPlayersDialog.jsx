@@ -77,7 +77,11 @@ const AddPlayersDialog = ({
     >
       <DialogTitle id="dialog-title">
         <Box width={1} className="centered">
-          <Typography variant={{ xs: "h5", md: "h4" }} textAlign="center">
+          <Typography
+            fontSize={{ xs: "1.2rem", md: "1.8rem" }}
+            color="secondary"
+            sx={localStyles.title}
+          >
             ADD PLAYERS
           </Typography>
         </Box>
@@ -118,3 +122,11 @@ const AddPlayersDialog = ({
 };
 
 export default AddPlayersDialog;
+
+const localStyles = {
+  title: {
+    fontFamily: (theme) => theme.typography.poppins,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+};
