@@ -58,7 +58,7 @@ const Play = () => {
     R: `Winner is R (${players?.playerR?.name})`,
     M: `Winner is M (${players?.playerM?.name})`,
   };
-  console.log("WINNER", winner);
+
   return (
     <Box
       pt="80px"
