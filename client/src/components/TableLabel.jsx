@@ -4,7 +4,7 @@ import React from "react";
 const TableLabel = ({ label }) => (
   <Typography
     fontWeight="bold"
-    fontSize="1.2rem"
+    fontSize={{ xs: "0.7rem", md: "1.2rem" }}
     textAlign="center"
     color="primary"
   >

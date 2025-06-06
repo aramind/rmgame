@@ -1,6 +1,5 @@
 import { Box, Typography } from "@mui/material";
 import useIsInMobile from "../../hooks/useIsInMobile";
-import React from "react";
 
 const Title = () => {
   const isInMobile = useIsInMobile();
@@ -8,8 +7,9 @@ const Title = () => {
     <Box marginBottom={1} marginX="auto">
       <Typography
         variant="h1"
-        textAlign="center"
         fontSize={isInMobile ? "4rem" : null}
+        sx={localStyles.title}
+        color="primary"
       >
         RM GAME
       </Typography>
@@ -18,3 +18,11 @@ const Title = () => {
 };
 
 export default Title;
+
+const localStyles = {
+  title: {
+    fontFamily: (theme) => theme.typography.poppins,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+};

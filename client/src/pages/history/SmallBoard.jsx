@@ -9,8 +9,8 @@ const SmallBoard = ({ board }) => {
         width: { xs: 100, md: 200 },
         aspectRatio: 1,
         display: "grid",
-        gridTemplateColumns: "repeat(3, 1fr)", // 3 columns
-        gridTemplateRows: "repeat(3, 1fr)", // 3 rows
+        gridTemplateColumns: "repeat(3, 1fr)",
+        gridTemplateRows: "repeat(3, 1fr)",
       }}
     >
       {board.map((item, index) => (
