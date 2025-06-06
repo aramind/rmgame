@@ -17,9 +17,10 @@ const Board = ({
       sx={{
         display: "grid",
         gridTemplateColumns: "repeat(3, 1fr)",
-        width: isInMobile ? 250 : 350,
+        width: 1,
         margin: "auto",
       }}
+      p={2}
       // className="outlined"
     >
       {board.map((value, index) => {

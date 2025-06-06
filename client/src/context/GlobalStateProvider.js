@@ -12,6 +12,11 @@ const globalReducer = (state, action) => {
         ...state,
         ackAlert: action.payload,
       };
+    case "SET_PLAYERS":
+      return {
+        ...state,
+        players: action.payload,
+      };
 
     default:
       throw new Error("No matched action");
@@ -26,9 +31,10 @@ const initialGlobalState = {
     message: "",
     autoHideDuration: 300000,
   },
+  players: {},
 };
 
-const GlobalStateContext = createContext(initialGlobalState);
+export const GlobalStateContext = createContext(initialGlobalState);
 
 export const useGlobalState = () => {
   return useContext(GlobalStateContext);

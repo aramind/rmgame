@@ -2,9 +2,11 @@ import React from "react";
 import useAuthReq from "./useAuthReq";
 import useConfirmActionDialog from "../../useConfirmActionDialog";
 import useApiSendAsync from "../../useApiSendAsync";
+import { useGlobalState } from "../../../context/GlobalStateProvider";
 
 const useAuthActions = ({ handleCloseDialog }) => {
   const { verify, register } = useAuthReq();
+  const { dispatch } = useGlobalState();
 
   //   const sendWithSuccessDialogClose = async (sendFn, args) => {
   //     try {
@@ -29,6 +31,12 @@ const useAuthActions = ({ handleCloseDialog }) => {
       try {
         const res = await sendPlay(data, { showFeedbackMsg: true });
         if (res?.success) {
+          console.log(res?.data);
+          dispatch({
+            type: "SET_PLAYERS",
+            payload: res?.data?.players,
+          });
+          localStorage.setItem("players", JSON.stringify(res?.data?.players));
           handleCloseDialog();
         }
       } catch (error) {
