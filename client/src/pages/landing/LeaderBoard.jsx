@@ -88,7 +88,10 @@ const LeaderBoard = () => {
             />
             {/* username */}
             <GameDetail flex="1" detail={player?.username} />
-            <GameDetail flex="1" detail={`${player?.winRatio * 100}%`} />
+            <GameDetail
+              flex="1"
+              detail={`${(player?.winRatio * 100).toFixed(2)}%`}
+            />
             <GameDetail flex="1" detail={player?.totalGames} />
             <GameDetail flex="1" detail={player?.wins} />
             {!isInMobile && (
