@@ -10,6 +10,9 @@ const Title = () => {
         variant="h1"
         textAlign="center"
         fontSize={isInMobile ? "4rem" : null}
+        sx={{ fontFamily: (theme) => theme.typography.poppins }}
+        fontWeight="bold"
+        color="primary"
       >
         RM GAME
       </Typography>
