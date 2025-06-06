@@ -1,9 +1,10 @@
-import { Box, Button, Stack } from "@mui/material";
-import React, { useState } from "react";
+import { Button, Stack } from "@mui/material";
+import { useState } from "react";
 import Title from "./Title";
 import { useNavigate } from "react-router-dom";
 import AddPlayersDialog from "../../components/AddPlayersDialog";
 import useAuthActions from "../../hooks/api/auth/useAuthActions";
+import LoadingPage from "../LoadingPage";
 
 const HeroSection = () => {
   const [openPlayersDialog, setOpenPlayersDialog] = useState(false);
@@ -15,6 +16,10 @@ const HeroSection = () => {
   };
   const { handleConfirmPlay, renderConfirmActionDialog, isLoading } =
     useAuthActions({ handleCloseDialog: handleGoToPlay });
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
   return (
     <>
       <Stack width={1} height="75vh" className="centered">
