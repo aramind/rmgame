@@ -8,15 +8,15 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { HamburgerIcon } from "../../utils/muiIcons";
+import { NavLink } from "react-router-dom";
 
-const NavLinksMobile = ({ sections }) => {
+const NavLinksMobile = ({ pages }) => {
   const [anchorMenu, setAnchorMenu] = useState(null);
 
   const handleCloseMenu = () => {
     setAnchorMenu(null);
   };
 
-  const active = false;
   return (
     <>
       <IconButton onClick={(e) => setAnchorMenu(e.currentTarget)}>
@@ -25,8 +25,9 @@ const NavLinksMobile = ({ sections }) => {
             fontSize: "50px",
             color: (theme) => theme.palette.secondary.main,
           }}
-        />{" "}
+        />
       </IconButton>
+
       <Menu
         id="navlinks-mobile"
         open={Boolean(anchorMenu)}
@@ -40,20 +41,31 @@ const NavLinksMobile = ({ sections }) => {
           },
         }}
       >
-        {sections?.map((s, index) => (
+        {pages?.map((page, index) => (
           <MenuItem key={index} onClick={handleCloseMenu} className="centered">
-            <Link
-              href={`#${s.name}`}
-              width={1}
-              sx={{
-                color: active === s.name ? "secondary.main" : "white.main",
+            <NavLink
+              to={`/${page.name}`}
+              style={({ isActive }) => ({
+                textDecoration: "none",
+                color: isActive ? "#CCA114" : "#F2E7BF",
+                width: "100%",
                 transition: "color 0.3s",
-              }}
+              })}
             >
-              <Typography variant="h6" noWrap textAlign="center" width={1}>
-                {s.text}
+              <Typography
+                variant="h6"
+                noWrap
+                textAlign="center"
+                width={1}
+                sx={{
+                  "&:hover": {
+                    color: "secondary.light",
+                  },
+                }}
+              >
+                {page.text}
               </Typography>
-            </Link>
+            </NavLink>
           </MenuItem>
         ))}
       </Menu>

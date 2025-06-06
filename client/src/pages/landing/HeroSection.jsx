@@ -17,9 +17,9 @@ const HeroSection = () => {
     useAuthActions({ handleCloseDialog: handleGoToPlay });
   return (
     <>
-      <Stack width={1} height="80vh" className="outlined centered">
+      <Stack width={1} height="80vh" className="centered">
         <Title />
-        <Stack width={{ xs: "80vw", md: "300px" }}>
+        <Stack width={{ xs: "80vw", md: "300px" }} gap={2}>
           <Button
             variant="contained"
             fullWidth
@@ -30,7 +30,11 @@ const HeroSection = () => {
           >
             START NEW GAME
           </Button>
+          <Button variant="outlined" onClick={() => navigate("/history")}>
+            View All Matches
+          </Button>
         </Stack>
+
         <AddPlayersDialog
           open={openPlayersDialog}
           setOpen={setOpenPlayersDialog}

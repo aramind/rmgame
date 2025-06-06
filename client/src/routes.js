@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "./layout/MainLayout";
 import Landing from "./pages/landing/Landing";
 import Play from "./pages/play/Play";
+import History from "./pages/history/History";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
       {
         path: "/play",
         element: <Play />,
+      },
+      {
+        path: "/history",
+        element: <History />,
       },
       { path: "*", element: <Landing /> },
     ],

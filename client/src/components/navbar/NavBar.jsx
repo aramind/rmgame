@@ -2,8 +2,11 @@ import { AppBar, Box, Link, Stack, Toolbar, Typography } from "@mui/material";
 import useIsInMobile from "../../hooks/useIsInMobile";
 import NavLinksMobile from "./NavLinksMobile";
 import NavbarLinks from "./NavbarLinks";
-const sections = [
+import { NavLink } from "react-router-dom";
+
+const pages = [
   { text: "play", name: "play" },
+  { text: "history", name: "history" },
   { text: "leaderboard", name: "leaderboard" },
   { text: "about", name: "about" },
 ];
@@ -19,7 +22,7 @@ const NavBar = () => {
           width={1}
           alignItems="center"
         >
-          <Link href={`#`}>
+          <NavLink to={"/"}>
             <Typography
               variant={isInMobile ? "h5" : "h4"}
               fontWeight="bold"
@@ -27,12 +30,12 @@ const NavBar = () => {
             >
               RM
             </Typography>
-          </Link>
+          </NavLink>
           <Box width={1} />
           {isInMobile ? (
-            <NavLinksMobile sections={sections} />
+            <NavLinksMobile pages={pages} />
           ) : (
-            <NavbarLinks sections={sections} />
+            <NavbarLinks pages={pages} />
           )}
         </Stack>
       </Toolbar>

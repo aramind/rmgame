@@ -1,8 +1,8 @@
-import { Link, Stack, Typography } from "@mui/material";
 import React from "react";
+import { Stack, Typography } from "@mui/material";
+import { NavLink } from "react-router-dom";
 
-const NavbarLinks = ({ sections }) => {
-  const active = false;
+const NavbarLinks = ({ pages }) => {
   return (
     <Stack
       direction="row"
@@ -10,21 +10,30 @@ const NavbarLinks = ({ sections }) => {
       alignItems="center"
       spacing={4}
     >
-      {sections?.map((s) => (
-        <Link
-          href={`#${s.name}`}
-          sx={{
-            color: active === s.name ? "secondary.main" : "white.main",
+      {pages?.map((page) => (
+        <NavLink
+          key={page.name}
+          to={`/${page.name}`}
+          style={({ isActive }) => ({
+            textDecoration: "none",
+            color: isActive ? "#CCA114" : "#F2E7BF",
             transition: "color 0.3s",
-            "&:hover": {
-              color: "secondary.light",
-            },
-          }}
+          })}
         >
-          <Typography variant="h6" noWrap>
-            {s.text}
-          </Typography>
-        </Link>
+          {({ isActive }) => (
+            <Typography
+              variant="h6"
+              noWrap
+              sx={{
+                "&:hover": {
+                  color: "secondary.light",
+                },
+              }}
+            >
+              {page.text}
+            </Typography>
+          )}
+        </NavLink>
       ))}
     </Stack>
   );
