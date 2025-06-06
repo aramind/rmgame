@@ -57,6 +57,11 @@ const Play = () => {
     M: `Winner is M (${players?.playerM?.name})`,
   };
 
+  // handlers
+
+  const onContinue = () => {};
+
+  const onExit = () => {};
   return (
     <Box
       pt="80px"
