@@ -1,12 +1,9 @@
-import React from "react";
 import useAuthReq from "./useAuthReq";
 import useConfirmActionDialog from "../../useConfirmActionDialog";
 import useApiSendAsync from "../../useApiSendAsync";
-import { useGlobalState } from "../../../context/GlobalStateProvider";
 
 const useAuthActions = ({ handleCloseDialog, handleCloseRegDialog }) => {
   const { verify, register } = useAuthReq();
-  const { dispatch } = useGlobalState();
 
   //   const sendWithSuccessDialogClose = async (sendFn, args) => {
   //     try {

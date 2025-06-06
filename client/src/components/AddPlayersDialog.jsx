@@ -5,11 +5,9 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Divider,
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import addPlayerSchema from "../schemas/addPlayer";
@@ -23,8 +21,6 @@ const AddPlayersDialog = ({
   maxWidth = "md",
   handleConfirmPlay,
 }) => {
-  const dialogRef = useRef(null);
-
   const {
     control,
     handleSubmit,

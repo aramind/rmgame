@@ -1,20 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {
-  Avatar,
-  Box,
-  Button,
-  IconButton,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import useApiGet from "../../hooks/api/useApiGet";
 import useGameReq from "../../hooks/api/game/useGameReq";
-import { formatToMMDDYYYY } from "../../utils/date";
+
 import useIsInMobile from "../../hooks/useIsInMobile";
 import LoadingPage from "../../pages/LoadingPage";
-import GameDetail from "./GameDetail";
-import { grey } from "@mui/material/colors";
-import { InfoIcon } from "../../utils/muiIcons";
+
 import Pagination from "./Pagination";
 import GameDetailModal from "./GameDetailModal";
 import GameHistoryHeader from "./GameHistoryHeader";
@@ -26,9 +17,9 @@ const GameHistory = () => {
   const { get } = useGameReq();
 
   const [games, setGames] = useState([]);
-  const [limit, setLimit] = useState(40);
+  const [limit] = useState(40);
   const [page, setPage] = useState(1);
-  const [queryParams, setQueryParams] = useState("");
+  const [queryParams] = useState("");
   const [hasMore, setHasMore] = useState(true);
 
   const [selectedGame, setSelectedGame] = useState(null);

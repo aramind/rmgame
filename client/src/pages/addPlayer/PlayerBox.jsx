@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   IconButton,
   InputAdornment,
   Stack,
@@ -12,7 +11,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import ControlledTextField from "../../components/controlled/ControlledTextField";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import TextFieldError from "../../components/controlled/TextFieldError";
-import { grey, red } from "@mui/material/colors";
+import { grey } from "@mui/material/colors";
 import AddAccount from "./AddAccount";
 
 const PlayerBox = ({ fieldPrefix }) => {

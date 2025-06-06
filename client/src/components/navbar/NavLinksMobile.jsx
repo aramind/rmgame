@@ -1,11 +1,4 @@
-import {
-  Box,
-  IconButton,
-  Link,
-  Menu,
-  MenuItem,
-  Typography,
-} from "@mui/material";
+import { IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { HamburgerIcon } from "../../utils/muiIcons";
 import { NavLink } from "react-router-dom";

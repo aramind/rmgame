@@ -1,13 +1,10 @@
 import {
-  Avatar,
   Box,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogTitle,
   IconButton,
   Stack,
-  Typography,
 } from "@mui/material";
 import React from "react";
 import SmallBoard from "./SmallBoard";

@@ -1,9 +1,8 @@
-import React from "react";
 import useGameReq from "./useGameReq";
 import useApiSendAsync from "../../useApiSendAsync";
-import useApiGet from "../../api/useApiGet.js";
+
 const useGameActions = ({ handleCloseDialog }) => {
-  const { add, get } = useGameReq();
+  const { add } = useGameReq();
 
   const { send: sendAddGame, isLoadingInAdd } = useApiSendAsync(add, ["games"]);
 
