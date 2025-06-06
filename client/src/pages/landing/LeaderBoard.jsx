@@ -31,7 +31,7 @@ const LeaderBoard = () => {
   return (
     <Box marginX="auto" width={{ xs: "90vw", md: "80vw" }}>
       <Box mb={2}>
-        <Typography variant={useIsInMobile ? "h5" : "h4"} textAlign="center">
+        <Typography variant={useIsInMobile ? "h6" : "h4"} textAlign="center">
           🥳💪💯LEADERBOARD 💥⚡🚀
         </Typography>
       </Box>
