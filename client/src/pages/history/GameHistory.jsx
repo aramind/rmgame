@@ -99,7 +99,7 @@ const GameHistory = () => {
       </Box>
 
       {!isLoadingInGetGames && hasMore && (
-        <Box className="centered" width={1} py={2}>
+        <Box className="centered" width={1} py={2} mb={10}>
           <Button variant="contained" onClick={handleLoadMore}>
             Load More
           </Button>
