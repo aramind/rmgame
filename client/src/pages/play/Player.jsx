@@ -12,7 +12,7 @@ const Player = ({ player }) => {
         />
       </Box>
       <Typography>
-        {(player?.name || player?.username).toUpperCase()}
+        {(player?.name || player?.username)?.toUpperCase()}
       </Typography>
       <Stack>
         <Typography>

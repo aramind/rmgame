@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import NavBar from "../../components/navbar/NavBar";
 import useIsInMobile from "../../hooks/useIsInMobile";
@@ -7,6 +7,7 @@ import checkWinner from "../../utils/checkWinner";
 import { useGlobalState } from "../../context/GlobalStateProvider";
 import Player from "./Player";
 import PlayersInMobile from "./PlayersInMobile";
+import GameEndDialog from "./GameEndDialog";
 
 const Play = () => {
   const {
@@ -18,6 +19,7 @@ const Play = () => {
   const [winningLine, setWinningLine] = useState([]);
   const [winner, setWinner] = useState("");
   const [ended, setEnded] = useState(false);
+  const [openGEDialog, setOpenGEDialog] = useState(false);
   const isInMobile = useIsInMobile();
 
   useEffect(() => {
@@ -42,9 +44,7 @@ const Play = () => {
     if (result?.winner) {
       setWinningLine(result?.winningLine);
       setWinner(result?.winner);
-      // alert(`${result?.winner} wins!`);
     } else if (newBoard.every((cell) => cell !== "")) {
-      // alert("It's a draw!");
       setWinningLine([]);
       setWinner("none");
     } else {
@@ -53,6 +53,9 @@ const Play = () => {
     }
   };
 
+  useEffect(() => {
+    setOpenGEDialog(true);
+  }, [ended]);
   const text = {
     none: `Draw`,
     R: `Winner is R (${players?.playerR?.name})`,
@@ -67,10 +70,19 @@ const Play = () => {
       minHeight="100vh"
     >
       <NavBar />
-      <Box mt={4} textAlign="center" height={1}>
-        <Typography variant="h5" gutterBottom>
-          {text[winner] || `Current Turn: ${currentPlayer}`}
-        </Typography>
+      <Stack mt={4} height={1} className="centered">
+        <Stack
+          className="centered "
+          gap={{ xs: 1, md: 2 }}
+          width={{ xs: "100%", md: "50%" }}
+        >
+          <Box className="centered" flex={1}>
+            <Typography variant="h5" gutterBottom>
+              {text[winner] || `Current Turn: ${currentPlayer}`}
+            </Typography>
+          </Box>
+        </Stack>
+
         <Stack
           direction={{ xs: "column", md: "row" }}
           gap={2}
@@ -97,9 +109,24 @@ const Play = () => {
               <Player player={players?.playerM} />
             </Box>
           )}
-          {isInMobile && <PlayersInMobile players={players} />}
         </Stack>
-      </Box>
+
+        {ended && (
+          <Stack
+            mt={2}
+            direction="row"
+            className="centered"
+            gap={2}
+            width={1}
+            flex={1}
+          >
+            <Typography>Play again?</Typography>
+            <Button variant="outlined">No</Button>
+            <Button variant="contained">Yes</Button>
+          </Stack>
+        )}
+        {isInMobile && <PlayersInMobile players={players} />}
+      </Stack>
     </Box>
   );
 };
