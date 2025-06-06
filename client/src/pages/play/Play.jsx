@@ -74,7 +74,6 @@ const Play = () => {
         <Stack
           direction={{ xs: "column", md: "row" }}
           gap={2}
-          className="outlined2"
           width={1}
           height={1}
           justifyContent="center"
