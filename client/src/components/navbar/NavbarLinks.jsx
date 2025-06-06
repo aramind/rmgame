@@ -8,7 +8,7 @@ const NavbarLinks = ({ pages }) => {
       direction="row"
       justifyContent="space-between"
       alignItems="center"
-      spacing={4}
+      spacing={5}
     >
       {pages?.map((page) => (
         <NavLink

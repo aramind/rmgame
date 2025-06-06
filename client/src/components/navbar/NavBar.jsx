@@ -7,7 +7,6 @@ import { NavLink } from "react-router-dom";
 const pages = [
   { text: "play", name: "play" },
   { text: "history", name: "history" },
-  { text: "leaderboard", name: "leaderboard" },
   { text: "about", name: "about" },
 ];
 
@@ -21,6 +20,7 @@ const NavBar = () => {
           justifyContent="space-between"
           width={1}
           alignItems="center"
+          pr={4}
         >
           <NavLink to={"/"}>
             <Typography
