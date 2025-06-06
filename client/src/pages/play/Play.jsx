@@ -11,14 +11,16 @@ import { useNavigate } from "react-router-dom";
 import GameEndActions from "./GameEndActions";
 import GameStatus from "./GameStatus";
 import useGameActions from "../../hooks/api/game/useGameActions";
+import usePlayerActions from "../../hooks/api/player/usePlayerActions";
+import useApiGet from "../../hooks/api/useApiGet";
+import usePlayerReq from "../../hooks/api/player/usePlayerReq";
 
 const Play = () => {
-  const {
-    globalState: { players },
-    dispatch,
-  } = useGlobalState();
   const { sendAddGame } = useGameActions({ handleCloseDialog: {} });
+  const { getById } = usePlayerReq();
   // states
+  const [playersInLocal, setPlayersInLocal] = useState({});
+  const [playerIds, setPlayerIds] = useState({ idR: null, idM: null });
   const [board, setBoard] = useState(Array(9).fill(""));
   const [currentPlayer, setCurrentPlayer] = useState(
     Math.random() < 0.5 ? "R" : "M"
@@ -30,14 +32,28 @@ const Play = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedPlayers = localStorage.getItem("players");
-    if (storedPlayers) {
-      dispatch({
-        type: "SET_PLAYERS",
-        payload: JSON.parse(storedPlayers),
-      });
+    const players = localStorage.getItem("players");
+    if (players) {
+      const storedPlayers = JSON.parse(players);
+      setPlayerIds({ idR: storedPlayers?.R, idM: storedPlayers?.M });
+      setPlayersInLocal(storedPlayers);
     }
-  }, [dispatch]);
+  }, []);
+
+  const { idR, idM } = playerIds;
+
+  console.log("IDS", playerIds);
+
+  const {
+    data: playerRData,
+    isLoading: isLoadingInGetPlayerR,
+    isError: isErrorInGetPlayerR,
+  } = useApiGet(["playerR", idR], () => getById(idR), { enabled: !!idR });
+  const {
+    data: playerMData,
+    isLoading: isLoadingInGetPlayerM,
+    isError: isErrorInGetPlayerM,
+  } = useApiGet(["playerM", idM], () => getById(idM), { enabled: !!idM });
 
   const sendAddGameReq = () => {
     const isDraw = winPlayer === "none";
@@ -45,21 +61,21 @@ const Play = () => {
       winPlayer === "none"
         ? null
         : winPlayer === "R"
-        ? players?.playerR?._id
-        : players?.playerM?._id;
+        ? playerRData?.data?._id
+        : playerMData?.data?._id;
     const loser =
       winPlayer === "none"
         ? null
         : winPlayer === "R"
-        ? players?.playerM?._id
-        : players?.playerR?._id;
+        ? playerMData?.data?._id
+        : playerRData?.data?._id;
 
     const payload = {
-      playerR: players?.playerR?._id,
-      playerM: players?.playerM?._id,
+      playerR: playerRData?.data?._id,
+      playerM: playerMData?.data?._id,
       displayNames: {
-        R: players?.playerR?.name || players?.playerR?.username,
-        M: players?.playerM?.name || players?.playerM?.username,
+        R: playersInLocal?.gameName?.R || playerRData?.data?.username,
+        M: playersInLocal?.gameName?.M || playerMData?.data?.username,
       },
       board: board,
       winner: winner,
@@ -94,8 +110,12 @@ const Play = () => {
 
   const text = {
     none: `Draw`,
-    R: `Winner is R (${players?.playerR?.name})`,
-    M: `Winner is M (${players?.playerM?.name})`,
+    R: `Winner is R (${
+      playersInLocal?.gameName?.R || playerRData?.data?.username
+    })`,
+    M: `Winner is M (${
+      playersInLocal?.gameName?.M || playerMData?.data?.username
+    })`,
   };
 
   // handlers
@@ -139,7 +159,7 @@ const Play = () => {
         >
           {!isInMobile && (
             <Box flex={1}>
-              <Player player={players?.playerR} />
+              <Player player={playerRData?.data} />
             </Box>
           )}
           <Box flex={1}>
@@ -153,13 +173,18 @@ const Play = () => {
           </Box>
           {!isInMobile && (
             <Box flex={1}>
-              <Player player={players?.playerM} />
+              <Player player={playerMData?.data} />
             </Box>
           )}
         </Stack>
 
         {ended && <GameEndActions onExit={onExit} onContinue={onContinue} />}
-        {isInMobile && <PlayersInMobile players={players} />}
+        {isInMobile && (
+          <PlayersInMobile
+            playerR={playerRData?.data}
+            playerM={playerRData?.data}
+          />
+        )}
       </Stack>
     </Box>
   );

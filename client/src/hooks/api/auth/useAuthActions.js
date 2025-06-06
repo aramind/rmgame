@@ -30,15 +30,32 @@ const useAuthActions = ({ handleCloseDialog }) => {
     handleConfirm("Confirm Play", "Are the details correct?", async () => {
       try {
         const res = await sendPlay(data, { showFeedbackMsg: true });
-        if (res?.success) {
-          console.log(res?.data);
-          dispatch({
-            type: "SET_PLAYERS",
-            payload: res?.data?.players,
-          });
-          localStorage.setItem("players", JSON.stringify(res?.data?.players));
-          handleCloseDialog();
-        }
+        // const players = {
+        //   R: res?.data?.players?.playerR?._id,
+        //   M: res?.data?.players?.playerM._id,
+        // };
+        // console.log(players);
+        // if (res?.success) {
+        //   console.log(res?.data);
+        //   dispatch({
+        //     type: "SET_PLAYERS",
+        //     payload: res?.data?.players,
+        //   });
+
+        const players = {
+          R: res?.data?.players?.playerR?._id,
+          M: res?.data?.players?.playerM._id,
+          gameName: {
+            R:
+              res?.data?.players?.playerR.name ||
+              res?.data?.players?.playerR.username,
+            M:
+              res?.data?.players?.playerM.name ||
+              res?.data?.players?.playerM.username,
+          },
+        };
+        localStorage.setItem("players", JSON.stringify(players));
+        handleCloseDialog();
       } catch (error) {
         console.error(error);
       }
