@@ -6,8 +6,8 @@ const SmallBoard = ({ board }) => {
   return (
     <Box
       sx={{
-        width: 100, // small box width
-        height: 100, // small box height
+        width: { xs: 100, md: 200 },
+        aspectRatio: 1,
         display: "grid",
         gridTemplateColumns: "repeat(3, 1fr)", // 3 columns
         gridTemplateRows: "repeat(3, 1fr)", // 3 rows
@@ -26,7 +26,9 @@ const SmallBoard = ({ board }) => {
             borderColor: grey[300],
           }}
         >
-          <Typography fontSize="0.8rem">{item}</Typography>
+          <Typography fontSize={{ xs: "0.8rem", md: "1.6rem" }}>
+            {item}
+          </Typography>
         </Box>
       ))}
     </Box>

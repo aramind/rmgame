@@ -18,6 +18,7 @@ import GameDetail from "./GameDetail";
 import { grey } from "@mui/material/colors";
 import { InfoIcon, InfoOutlined } from "../../utils/muiIcons";
 import Pagination from "./Pagination";
+import GameDetailModal from "./GameDetailModal";
 
 const GameHistory = () => {
   const isInMobile = useIsInMobile();
@@ -26,6 +27,7 @@ const GameHistory = () => {
   const [games, setGames] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [queryParams, setQueryParams] = useState("");
+  const [selectedGame, setSelectedGame] = useState(null);
   const { get } = useGameReq();
 
   const {
@@ -165,7 +167,10 @@ const GameHistory = () => {
                 )
               }
             />
-            <IconButton aria-label="delete">
+            <IconButton
+              aria-label="delete"
+              onClick={() => setSelectedGame(game)}
+            >
               <InfoIcon color="secondary" />
             </IconButton>
           </Stack>
@@ -191,6 +196,7 @@ const GameHistory = () => {
           No more games to load.
         </Typography>
       )}
+      <GameDetailModal game={selectedGame} />
     </Box>
   );
 };

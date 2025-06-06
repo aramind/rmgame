@@ -6,4 +6,5 @@ export {
   EmailSharp as EmailIcon,
   LinkedIn as LinkedInIcon,
   InfoOutlined as InfoIcon,
+  CloseSharp as CloseIcon,
 } from "@mui/icons-material";
