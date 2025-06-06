@@ -86,7 +86,7 @@ const GameHistory = () => {
             displayedGames={displayedGames}
             startIndex={startIndex}
             setOpenGDModal={setOpenGDModal}
-            setSelectedGame={selectedGame}
+            setSelectedGame={setSelectedGame}
           />
         )}
         <Pagination
