@@ -21,10 +21,10 @@ This is a full-stack Tic Tac Toe inspired game built using the **MERN stack** â€
 ### âœ… Required Features
 
 #### 1. User Registration and Gameplay
-- Players must be able to input their before playing.
+- Players must be able to input their names before playing.
 
 #### 2. Starting a Game Session
-- App must display a list of all previous game sessions.
+- Game must display a list of all previous game sessions.
 - "Start New Game" button initiates a new game session.
 
 #### 3. Gameplay and Rounds
