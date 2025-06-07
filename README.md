@@ -21,15 +21,14 @@ This is a full-stack Tic Tac Toe inspired game built using the **MERN stack** �
 ### ✅ Required Features
 
 #### 1. User Registration and Gameplay
-- Players must be able to input their name while playing.
+- Players must be able to input their before playing.
 
 #### 2. Starting a Game Session
-- Home Page displays a list of all previous game sessions.
+- App must display a list of all previous game sessions.
 - "Start New Game" button initiates a new game session.
-- Players provide a display name for use during gameplay.
 
 #### 3. Gameplay and Rounds
-- Game board displays players identified by display names or usernames.
+- Game board displays players identified by thier names.
 - Each round records wins, losses, and draws for both players.
 - After each round:
   - Players can choose "Continue" to start a new round.
@@ -108,4 +107,4 @@ This is a full-stack Tic Tac Toe inspired game built using the **MERN stack** �
 
 ---
 
-**Made with 🧠 and 💻 by [@aramind](https://github.com/aramind)**
+**Made with 🧠, 💻, and ❤️ by [@aramind](https://github.com/aramind)**
