@@ -97,9 +97,11 @@ const GameHistory = () => {
         </Box>
       )}
       {!hasMore && (
-        <Typography my={1} color="textSecondary">
-          No more games to load.
-        </Typography>
+        <Box className="centered" width={1} mt={2} mb={10}>
+          <Typography textAlign="center" my={1} color="primary">
+            No more games to load.
+          </Typography>
+        </Box>
       )}
       <GameDetailModal
         game={selectedGame}
