@@ -1,4 +1,4 @@
-# TM Game
+# RM Game (a tic-tac-toe game)
 
 This is a full-stack Tic Tac Toe inspired game built using the **MERN stack** — MongoDB, Express, React, and Node.js — along with modern web technologies like HTML, CSS, JavaScript, and Material UI for the frontend design.
 
