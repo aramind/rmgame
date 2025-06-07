@@ -3,11 +3,7 @@ import React from "react";
 
 const GameStatus = ({ text }) => {
   return (
-    <Stack
-      className="centered "
-      gap={{ xs: 1, md: 2 }}
-      width={{ xs: "100%", md: "50%" }}
-    >
+    <Stack className="centered " gap={{ xs: 1, md: 2 }} width={1}>
       <Box className="centered" flex={1}>
         <Typography variant="h5" gutterBottom>
           {text}

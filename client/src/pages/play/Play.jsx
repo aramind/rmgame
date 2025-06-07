@@ -1,4 +1,4 @@
-import { Box, Stack } from "@mui/material";
+import { Box, IconButton, Stack } from "@mui/material";
 import React, { useState } from "react";
 import NavBar from "../../components/navbar/NavBar";
 import useIsInMobile from "../../hooks/useIsInMobile";
@@ -17,6 +17,14 @@ import LoadingPage from "../LoadingPage";
 import prepareGamePayload from "../../utils/prepareGamePayload";
 import updateGameBoard from "../../utils/updateGameBoard";
 import Invitation from "./Invitation";
+import useSound from "../../hooks/useSound";
+
+import tap1 from "../../assets/sounds/tap1.wav";
+import tap2 from "../../assets/sounds/tap2.wav";
+import winner1 from "../../assets/sounds/winner1.wav";
+import winner2 from "../../assets/sounds/winner2.wav";
+import draw from "../../assets/sounds/draw.wav";
+import { SoundOffIcon, SoundOnIcon } from "../../utils/muiIcons";
 
 const Play = () => {
   const { sendAddGame } = useGameActions({ handleCloseDialog: {} });
@@ -37,6 +45,7 @@ const Play = () => {
   const [ended, setEnded] = useState(false);
   const isInMobile = useIsInMobile();
   const navigate = useNavigate();
+  const { isSoundOn, setIsSoundOn, playSound } = useSound();
 
   const idR = playersInLocal?.R?._id;
   const idM = playersInLocal?.M?._id;
@@ -75,12 +84,23 @@ const Play = () => {
     const result = updateGameBoard({ index, board, currentPlayer });
     if (!result) return;
 
+    if (currentPlayer === "R") playSound(tap1);
+    if (currentPlayer === "M") playSound(tap2);
+
     setBoard(result.board);
     setWinningLine(result.winningLine);
     setWinPlayer(result.winPlayer);
+
     setEnded(result.ended);
+
     if (!result.ended) {
       setCurrentPlayer(result.nextPlayer);
+    } else {
+      setTimeout(() => {
+        if (result.winPlayer === "R") playSound(winner1);
+        else if (result.winPlayer === "M") playSound(winner2);
+        else playSound(draw);
+      }, 400);
     }
   };
 
@@ -127,9 +147,22 @@ const Play = () => {
     >
       <NavBar />
       <Stack mt={4} height={1} className="centered">
-        <GameStatus
-          text={text[winPlayer] || `Current Turn: ${currentPlayer}`}
-        />
+        <Stack width={{ xs: "100%", md: "50%" }} direction="row">
+          <Box flex={0.3} />
+          <Box flex={1}>
+            <GameStatus
+              text={text[winPlayer] || `Current Turn: ${currentPlayer}`}
+            />
+          </Box>
+          <Box flex={0.3}>
+            <IconButton
+              onClick={() => setIsSoundOn(!isSoundOn)}
+              color="primary"
+            >
+              {isSoundOn ? <SoundOnIcon /> : <SoundOffIcon />}
+            </IconButton>
+          </Box>
+        </Stack>
         <Stack
           direction={{ xs: "column", md: "row" }}
           gap={2}
