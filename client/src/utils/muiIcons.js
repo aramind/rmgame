@@ -9,4 +9,5 @@ export {
   CloseSharp as CloseIcon,
   VolumeOffSharp as SoundOffIcon,
   VolumeUpSharp as SoundOnIcon,
+  LogoutRounded as LogoutIcon,
 } from "@mui/icons-material";
