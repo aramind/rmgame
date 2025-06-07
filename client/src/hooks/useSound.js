@@ -1,9 +1,9 @@
 import useLocalStorage from "./useLocalStorage";
 
 const useSound = () => {
-  const { value: isSoundOn = true, save: setIsSoundOn } = useLocalStorage(
+  const { value: isSoundOn, save: setIsSoundOn } = useLocalStorage(
     "soundOn",
-    true
+    false
   );
 
   const playSound = (src) => {

@@ -84,8 +84,8 @@ const Play = () => {
     const result = updateGameBoard({ index, board, currentPlayer });
     if (!result) return;
 
-    if (currentPlayer === "R") playSound(tap1);
-    if (currentPlayer === "M") playSound(tap2);
+    // if (currentPlayer === "R") playSound(tap1);
+    // if (currentPlayer === "M") playSound(tap2);
 
     setBoard(result.board);
     setWinningLine(result.winningLine);
