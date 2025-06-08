@@ -96,11 +96,9 @@ const Play = () => {
     if (!result.ended) {
       setCurrentPlayer(result.nextPlayer);
     } else {
-      setTimeout(() => {
-        if (result.winPlayer === "R") playSound(winner1);
-        else if (result.winPlayer === "M") playSound(winner2);
-        else playSound(draw);
-      }, 400);
+      if (result.winPlayer === "R") playSound(winner1);
+      else if (result.winPlayer === "M") playSound(winner2);
+      else playSound(draw);
     }
   };
 
