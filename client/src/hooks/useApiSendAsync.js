@@ -36,7 +36,7 @@ const useApiSendAsync = (fn, invalidateKey, options) => {
 
       return res;
     } catch (error) {
-      console.log("❗ CAUGHT ERROR in send:", error);
+      console.log("CAUGHT ERROR in send:", error);
       if (showFeedbackMsg) {
         console.error(error);
         showAckAlert(`Request failed: ${error?.message}`, "error");
