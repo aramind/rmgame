@@ -5,12 +5,7 @@ import GameHistory from "./GameHistory";
 
 const History = () => {
   return (
-    <Box
-      pt="80px"
-      width={{ xs: "90vw", md: "80vw" }}
-      marginX="auto"
-      minHeight="100vh"
-    >
+    <Box sx={localStyles.container}>
       <NavBar />
       <GameHistory />
     </Box>
@@ -18,3 +13,12 @@ const History = () => {
 };
 
 export default History;
+
+const localStyles = {
+  container: {
+    pt: "80px",
+    width: { xs: "90vw", md: "80vw" },
+    marginX: "auto",
+    minHeight: "100vh",
+  },
+};

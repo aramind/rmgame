@@ -24,6 +24,7 @@ const GameHistory = () => {
 
   const [selectedGame, setSelectedGame] = useState(null);
   const [openGDModal, setOpenGDModal] = useState(false);
+  // GD - game detail
 
   //   for pagination
   const [displayPage, setDisplayPage] = useState(1);

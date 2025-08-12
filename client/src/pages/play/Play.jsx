@@ -35,7 +35,6 @@ const Play = () => {
   // } = useGlobalState();
   const { value: playersInLocal } = useLocalStorage("players");
   // states
-
   const [board, setBoard] = useState(Array(9).fill(""));
   const [currentPlayer, setCurrentPlayer] = useState(
     Math.random() < 0.5 ? "R" : "M"
@@ -49,6 +48,7 @@ const Play = () => {
 
   const idR = playersInLocal?.R?._id;
   const idM = playersInLocal?.M?._id;
+
   const {
     data: playerRData,
     isLoading: isLoadingInGetPlayerR,
@@ -56,6 +56,7 @@ const Play = () => {
   } = useApiGet(["playerR", idR], () => getById(idR), {
     enabled: !!idR,
   });
+
   const {
     data: playerMData,
     isLoading: isLoadingInGetPlayerM,
@@ -80,6 +81,7 @@ const Play = () => {
       console.error("Failed to add game:", error);
     }
   };
+
   const handleCellClick = (index) => {
     const result = updateGameBoard({ index, board, currentPlayer });
     if (!result) return;
